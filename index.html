@@ -184,9 +184,30 @@ main{padding:20px;max-width:1200px;margin:0 auto}
   header{flex-wrap:wrap;gap:8px}
   .stat-cards{grid-template-columns:repeat(2,1fr)}
   .awards-grid{grid-template-columns:1fr}
+  .match-row{gap:6px}
+  .match-teams{font-size:.75rem;min-width:0}
+  .match-score{font-size:.75rem}
+  .pts-badge{font-size:.65rem;padding:1px 5px}
+  .lb-row td{padding:10px 8px}
+  .lb-name{font-size:.88rem}
+  .lb-pts{font-size:1rem}
+  /* KO breakdown rows on mobile */
+  .ko-match-block{flex-direction:column !important;gap:2px !important}
+  .ko-match-block > div{flex-wrap:nowrap !important}
 }
 .adm-team-input{background:var(--surface);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:.8rem;padding:4px 7px;font-family:inherit;width:110px}
 .adm-team-input:focus{outline:none;border-color:var(--primary)}
+
+/* Stage badge */
+.stage-badge{font-size:.75rem;font-weight:700;padding:4px 12px;border-radius:20px;background:rgba(200,169,81,.15);color:var(--primary);border:1px solid rgba(200,169,81,.4);letter-spacing:.5px;text-transform:uppercase}
+
+/* Scoring tab */
+.scoring-category{background:var(--surface2);border-radius:8px;padding:14px 16px;margin-bottom:12px}
+.scoring-cat-title{font-size:.88rem;font-weight:700;color:var(--primary);margin-bottom:10px}
+.scoring-cat-sub{font-size:.72rem;color:var(--muted);font-weight:400;margin-left:6px}
+.scoring-rows{display:flex;flex-direction:column;gap:6px}
+.scoring-row{display:flex;align-items:baseline;gap:10px;font-size:.82rem;color:var(--text)}
+.scoring-pts{min-width:44px;font-weight:700;color:var(--primary);font-size:.85rem;flex-shrink:0}
 
 /* Groups & Bracket */
 .groups-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:24px}
@@ -227,6 +248,7 @@ main{padding:20px;max-width:1200px;margin:0 auto}
 <header>
   <div class="logo">⚽ 2026 FIFA World Cup <span>Leaderboard</span></div>
   <div class="header-actions">
+    <div id="tournament-stage" class="stage-badge" style="display:none"></div>
     <div id="header-status" class="status-info"></div>
     <button class="btn btn-ghost btn-sm" onclick="showAdminLogin()">🔒 Admin</button>
   </div>
@@ -235,6 +257,7 @@ main{padding:20px;max-width:1200px;margin:0 auto}
 <nav id="main-nav">
   <div class="tab active" data-tab="leaderboard" onclick="showTab('leaderboard')">🏆 Leaderboard</div>
   <div class="tab" data-tab="bracket" onclick="showTab('bracket')">📊 Groups & Bracket</div>
+  <div class="tab" data-tab="scoring" onclick="showTab('scoring')">📖 How to Score</div>
   <div class="tab admin-only" data-tab="admin-results" onclick="showTab('admin-results')" style="display:none">📋 Enter Results</div>
   <div class="tab admin-only" data-tab="admin-upload" onclick="showTab('admin-upload')" style="display:none">⬆ Upload Predictions</div>
   <div class="tab admin-only" data-tab="admin-awards" onclick="showTab('admin-awards')" style="display:none">🏅 Awards</div>
@@ -257,7 +280,70 @@ main{padding:20px;max-width:1200px;margin:0 auto}
 
 <!-- GROUPS & BRACKET -->
 <div id="bracket-section" class="section">
+  <div class="status-bar" style="margin-bottom:12px">
+    <div class="status-info" id="bracket-status"></div>
+    <button class="btn btn-ghost btn-sm" onclick="loadAllData()">↻ Refresh</button>
+  </div>
   <div id="bracket-container"><div class="empty-state"><div class="spinner"></div> Loading…</div></div>
+</div>
+
+<!-- HOW TO SCORE -->
+<div id="scoring-section" class="section">
+  <div class="card">
+    <h3>📖 How Points Are Scored</h3>
+    <p class="text-muted" style="margin-bottom:16px">Points are awarded across four categories. The earlier you predict correctly, the more it's worth.</p>
+
+    <div class="scoring-category">
+      <div class="scoring-cat-title">⚽ Group Stage Matches <span class="scoring-cat-sub">72 matches</span></div>
+      <div class="scoring-rows">
+        <div class="scoring-row"><span class="scoring-pts">3 pts</span><span>Exact scoreline (e.g. 2–1)</span></div>
+        <div class="scoring-row"><span class="scoring-pts">1 pt</span><span>Correct outcome (win/draw/loss) but wrong score</span></div>
+        <div class="scoring-row"><span class="scoring-pts">0 pts</span><span>Wrong outcome</span></div>
+      </div>
+    </div>
+
+    <div class="scoring-category">
+      <div class="scoring-cat-title">📊 Group Standings <span class="scoring-cat-sub">Locked in when all 6 group matches are played</span></div>
+      <div class="scoring-rows">
+        <div class="scoring-row"><span class="scoring-pts">3 pts</span><span>Predicted the exact finishing order (1st, 2nd, 3rd, 4th) for a group</span></div>
+        <div class="scoring-row"><span class="scoring-pts">1 pt</span><span>Predicted the group winner correctly (but wrong overall order)</span></div>
+        <div class="scoring-row"><span class="scoring-pts">0 pts</span><span>Wrong group winner</span></div>
+      </div>
+    </div>
+
+    <div class="scoring-category">
+      <div class="scoring-cat-title">🏟 Knockout Matches <span class="scoring-cat-sub">R32 · R16 · QF · SF · 3rd Place · Final</span></div>
+      <div class="scoring-rows">
+        <div class="scoring-row"><span class="scoring-pts">4 pts</span><span>Exact scoreline with correct teams</span></div>
+        <div class="scoring-row"><span class="scoring-pts">2 pts</span><span>Correct winner with correct teams (wrong score)</span></div>
+        <div class="scoring-row"><span class="scoring-pts">1 pt</span><span>Correct winner but wrong teams (right winner, wrong matchup)</span></div>
+        <div class="scoring-row"><span class="scoring-pts">0 pts</span><span>Wrong winner</span></div>
+        <div class="scoring-row" style="margin-top:6px;border-top:1px solid var(--border);padding-top:6px">
+          <span class="scoring-pts" style="color:var(--blue)">+1 pt</span><span>Bonus: correctly predicted which round a team was eliminated</span>
+        </div>
+      </div>
+      <div class="notice" style="margin-top:8px">The Final and 3rd Place match score 7 pts / 5 pts instead of 4 / 2 for exact / correct winner.</div>
+    </div>
+
+    <div class="scoring-category">
+      <div class="scoring-cat-title">🏅 Tournament Awards</div>
+      <div class="scoring-rows">
+        <div class="scoring-row"><span class="scoring-pts">5 pts</span><span>🏆 Champion</span></div>
+        <div class="scoring-row"><span class="scoring-pts">5 pts</span><span>🥉 Third Place Winner</span></div>
+        <div class="scoring-row"><span class="scoring-pts">3 pts</span><span>🥾 Golden Boot (Top Scorer)</span></div>
+        <div class="scoring-row"><span class="scoring-pts">3 pts</span><span>⚽ Golden Ball (Best Player)</span></div>
+        <div class="scoring-row"><span class="scoring-pts">3 pts</span><span>🧤 Golden Glove (Best Goalkeeper)</span></div>
+      </div>
+    </div>
+
+    <div class="scoring-category">
+      <div class="scoring-cat-title">🟥 Red Card Jokers <span class="scoring-cat-sub">Up to 3 jokers per player</span></div>
+      <div class="scoring-rows">
+        <div class="scoring-row"><span class="scoring-pts">10 pts</span><span>A red card is shown in the match you picked — huge risk, huge reward</span></div>
+        <div class="scoring-row"><span class="scoring-pts">0 pts</span><span>No red card shown, or wrong match</span></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- ADMIN: ENTER RESULTS -->
@@ -345,16 +431,8 @@ main{padding:20px;max-width:1200px;margin:0 auto}
 <div id="admin-config-section" class="section">
   <div class="card">
     <h3>GitHub Configuration</h3>
-    <p class="text-muted" style="margin-bottom:14px">The scoring site reads and writes data to a GitHub repository. Enter the details below — stored in your browser's localStorage.</p>
+    <p class="text-muted" style="margin-bottom:14px">Data is read from <b>oscarjimsills-monad/worldcup_predictions_scoring</b>. Enter your admin token to enable saving results.</p>
     <div class="admin-grid">
-      <div class="form-field">
-        <label>GitHub Owner (username or org)</label>
-        <input class="form-input" id="cfg-owner" placeholder="e.g. oscarjimsills-monad">
-      </div>
-      <div class="form-field">
-        <label>Repository Name</label>
-        <input class="form-input" id="cfg-repo" placeholder="e.g. worldcup_predictions_scoring">
-      </div>
       <div class="form-field" style="grid-column:1/-1">
         <label>Personal Access Token (needs contents:write)</label>
         <input class="form-input" id="cfg-token" type="password" placeholder="ghp_…">
@@ -609,28 +687,25 @@ function adminLogout() {
 
 // ===================== GITHUB CONFIG =====================
 
+const REPO_OWNER = 'oscarjimsills-monad';
+const REPO_NAME = 'worldcup_predictions_scoring';
+
 function getConfig() {
   return {
-    owner: localStorage.getItem('gh_owner') || '',
-    repo: localStorage.getItem('gh_repo') || '',
+    owner: REPO_OWNER,
+    repo: REPO_NAME,
     token: localStorage.getItem('gh_token') || '',
   };
 }
 
 function saveConfig() {
-  const owner = document.getElementById('cfg-owner').value.trim();
-  const repo = document.getElementById('cfg-repo').value.trim();
   const token = document.getElementById('cfg-token').value.trim();
-  localStorage.setItem('gh_owner', owner);
-  localStorage.setItem('gh_repo', repo);
   localStorage.setItem('gh_token', token);
   setBadge('conn-idle', 'Saved — test connection');
 }
 
 function loadConfigUI() {
   const c = getConfig();
-  document.getElementById('cfg-owner').value = c.owner;
-  document.getElementById('cfg-repo').value = c.repo;
   document.getElementById('cfg-token').value = c.token;
 }
 
@@ -792,6 +867,8 @@ async function loadAllData() {
   document.getElementById('offline-banner').classList.toggle('show', fetchErrors);
   renderLeaderboard();
   renderBracketTab();
+  updateStageIndicator();
+  updateBracketStatus();
   if (isAdmin()) renderFlagsPanel();
 }
 
@@ -1051,11 +1128,13 @@ function renderLeaderboard() {
     return { name, total, breakdown, summary };
   }).sort((a, b) => b.total - a.total);
 
+  // Assign ranks (tied players share same rank)
   let html = '<table class="lb-table">';
   scores.forEach((s, i) => {
-    const rank = i + 1;
+    const isTied = (i > 0 && scores[i - 1].total === s.total) || (i < scores.length - 1 && scores[i + 1].total === s.total);
+    const rank = scores.findIndex(x => x.total === s.total) + 1;
     const rankClass = rank === 1 ? 'gold' : rank === 2 ? 'silver' : rank === 3 ? 'bronze' : '';
-    const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : rank;
+    const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : (isTied ? `=${rank}` : rank);
     html += `
       <tr class="lb-row" onclick="toggleDetail('detail-${i}', this)">
         <td class="lb-rank ${rankClass}">${medal}</td>
@@ -1113,9 +1192,28 @@ function renderPlayerDetail(s) {
     if (sb) {
       const predStand = pred.standings?.[g];
       const realStand = results.standings?.[g];
-      const pWinner = predStand?.[0]?.team || '—';
-      const rWinner = realStand?.[0]?.team || '—';
-      html += matchRowHtml(`Group ${g} standings`, pWinner, rWinner, sb);
+      const complete = groupMatchesComplete(results, g);
+      const badgeLabels = { 'exact':'Exact','winner':'1st ✓','wrong':'Wrong','pending':'Pending' };
+      const badgeHtml = `<span class="pts-badge badge-${sb.badge}">${badgeLabels[sb.badge]||sb.badge}</span>`;
+      const ptsHtml = `<span class="pts-value">${sb.pts > 0 ? '+'+sb.pts : ''}</span>`;
+      if (predStand) {
+        const predOrder = predStand.map((r,i) => `${i+1}. ${r?.team||'?'}`).join(' · ');
+        const realOrder = complete && realStand ? realStand.map((r,i) => `${i+1}. ${r?.team||'?'}`).join(' · ') : null;
+        html += `<div class="match-row" style="flex-direction:column;align-items:stretch;gap:3px">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <span style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">Predicted order:</span>
+            <span style="font-size:.75rem;flex:1">${esc(predOrder)}</span>
+            ${!realOrder ? badgeHtml : ''}${!realOrder ? ptsHtml : ''}
+          </div>
+          ${realOrder ? `<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <span style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">Actual order:</span>
+            <span style="font-size:.75rem;flex:1;font-weight:600">${esc(realOrder)}</span>
+            ${badgeHtml}${ptsHtml}
+          </div>` : ''}
+        </div>`;
+      } else {
+        html += matchRowHtml(`Group ${g} standings`, predStand?.[0]?.team || '—', realStand?.[0]?.team || '—', sb);
+      }
     }
   }
   html += '</div>';
@@ -1138,10 +1236,50 @@ function renderPlayerDetail(s) {
       const results = cachedResults || {};
       const pko = pred.knockoutResults?.[e.id] ?? pred.knockoutResults?.[String(e.id)];
       const rko = results.knockoutResults?.[e.id] ?? results.knockoutResults?.[String(e.id)];
-      const teams = rko ? `${flag(rko.home)}${rko.home||'?'} v ${flag(rko.away)}${rko.away||'?'}` : `Match ${e.id}`;
+
+      const badgeLabels = {
+        'exact':'Exact','winner':'Outcome ✓','partial':'Winner (no opp)',
+        'pen':'Pen scoreline','elim':'+1 Elim','wrong':'Wrong',
+        'na':'n/a','pending':'Pending','flag':'⚠ Flagged'
+      };
+      const badgeHtml = `<span class="pts-badge badge-${e.badge}">${badgeLabels[e.badge]||e.badge}</span>`;
+      const ptsHtml = `<span class="pts-value">${e.pts > 0 ? '+'+e.pts : ''}</span>`;
+
+      // Predicted row
+      const predHome = pko?.home || '?';
+      const predAway = pko?.away || '?';
       const predScore = pko ? `${pko.homeScore}–${pko.awayScore}` : '—';
+
+      // Actual row
+      const realHome = rko?.home || null;
+      const realAway = rko?.away || null;
       const realScore = rko && rko.homeScore != null ? `${rko.homeScore}–${rko.awayScore}` : '—';
-      html += matchRowHtml(teams, predScore, realScore, e);
+      const hasReal = !!rko;
+
+      html += `<div class="match-row ko-match-block" style="flex-direction:column;align-items:stretch;gap:4px">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <div class="match-teams" style="font-size:.75rem;color:var(--muted)">
+            <span style="font-size:.65rem;text-transform:uppercase;letter-spacing:.5px;margin-right:4px">Predicted:</span>
+            ${flag(predHome)}${esc(predHome)} v ${flag(predAway)}${esc(predAway)}
+          </div>
+          <div class="match-score">
+            <span class="score-pred">${predScore}</span>
+          </div>
+          ${hasReal ? '' : badgeHtml}
+          ${hasReal ? '' : ptsHtml}
+        </div>
+        ${hasReal ? `<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <div class="match-teams" style="font-size:.78rem;font-weight:600">
+            <span style="font-size:.65rem;text-transform:uppercase;letter-spacing:.5px;margin-right:4px;color:var(--muted)">Actual:</span>
+            ${flag(realHome||'')}${esc(realHome||'?')} v ${flag(realAway||'')}${esc(realAway||'?')}
+          </div>
+          <div class="match-score">
+            <span class="score-real">${realScore}</span>
+          </div>
+          ${badgeHtml}
+          ${ptsHtml}
+        </div>` : ''}
+      </div>`;
     }
     html += '</div>';
   }
@@ -1220,6 +1358,57 @@ function countPlayedMatches() {
     if (rko && rko.homeScore != null) count++;
   }
   return count;
+}
+
+// ===================== TOURNAMENT STAGE DETECTION =====================
+
+function getCurrentStage(results) {
+  if (!results) return null;
+  const ko = results.knockoutResults || {};
+
+  // Check KO rounds from deepest outward
+  const hasFinal    = Object.values(ko).some(m => m.label === 'Final' && m.homeScore != null);
+  const has3rd      = Object.values(ko).some(m => m.label === '3rd Place' && m.homeScore != null);
+  const hasSF       = Object.values(ko).some(m => m.label === 'SF' && m.homeScore != null);
+  const hasQF       = Object.values(ko).some(m => m.label === 'QF' && m.homeScore != null);
+  const hasR16      = Object.values(ko).some(m => m.label === 'R16' && m.homeScore != null);
+  const hasR32      = Object.values(ko).some(m => m.label === 'R32' && m.homeScore != null);
+
+  if (hasFinal || has3rd) return { label: '🏆 Final', color: 'var(--primary)' };
+  if (hasSF)  return { label: '🔥 Semi-finals', color: 'var(--primary)' };
+  if (hasQF)  return { label: '⚡ Quarter-finals', color: 'var(--primary)' };
+  if (hasR16) return { label: 'Round of 16', color: 'var(--primary)' };
+  if (hasR32) return { label: 'Round of 32', color: 'var(--primary)' };
+
+  // Group stage — work out matchday
+  const gs = results.groupScores || {};
+  const played = FIXTURES.filter(f => {
+    const sc = gs[f.id] ?? gs[String(f.id)];
+    return sc && sc.h != null;
+  }).length;
+
+  if (played === 0) return null;
+  if (allGroupsComplete(results)) return { label: 'Group Stage Complete', color: 'var(--green)' };
+  const matchday = played <= 12 ? 1 : played <= 24 ? 2 : 3;
+  return { label: `Group Stage · Matchday ${matchday}`, color: 'var(--green)' };
+}
+
+function updateStageIndicator() {
+  const el = document.getElementById('tournament-stage');
+  if (!el) return;
+  const stage = getCurrentStage(cachedResults || {});
+  if (!stage) { el.style.display = 'none'; return; }
+  el.style.display = '';
+  el.textContent = stage.label;
+  el.style.color = stage.color;
+  el.style.borderColor = stage.color.replace(')', ', .4)').replace('var(', 'rgba(').replace('--primary', '200,169,81').replace('--green', '76,175,128');
+}
+
+function updateBracketStatus() {
+  const el = document.getElementById('bracket-status');
+  if (!el) return;
+  const time = lastFetchTime ? lastFetchTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : null;
+  el.textContent = time ? `Last updated ${time}` : '';
 }
 
 // ===================== STANDINGS & KO RESOLUTION (from results object) =====================
@@ -2121,7 +2310,7 @@ function showTab(tab) {
   const tabEl = document.querySelector(`[data-tab="${tab}"]`);
   if (tabEl) tabEl.classList.add('active');
 
-  if (tab === 'bracket') renderBracketTab();
+  if (tab === 'bracket') { renderBracketTab(); updateBracketStatus(); }
   if (tab === 'admin-results') loadAdminResultsUI();
   if (tab === 'admin-upload') renderExistingUploads();
   if (tab === 'admin-awards') loadAwardsUI();
