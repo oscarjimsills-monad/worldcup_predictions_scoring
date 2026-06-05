@@ -1245,16 +1245,18 @@ function renderPlayerDetail(s) {
       const badgeHtml = `<span class="pts-badge badge-${e.badge}">${badgeLabels[e.badge]||e.badge}</span>`;
       const ptsHtml = `<span class="pts-value">${e.pts > 0 ? '+'+e.pts : ''}</span>`;
 
-      // Predicted row
-      const predHome = pko?.home || '?';
-      const predAway = pko?.away || '?';
+      // Predicted row — always show what the player submitted
+      const predHome = pko?.home || 'Not predicted';
+      const predAway = pko?.away || 'Not predicted';
       const predScore = pko ? `${pko.homeScore}–${pko.awayScore}` : '—';
 
-      // Actual row
-      const realHome = rko?.home || null;
-      const realAway = rko?.away || null;
-      const realScore = rko && rko.homeScore != null ? `${rko.homeScore}–${rko.awayScore}` : '—';
-      const hasReal = !!rko;
+      // Actual row — use saved result, or fall back to confirmed bracket teams
+      const confirmedTeams = resolveKOTeamsConfirmed(results);
+      const realHome = rko?.home || confirmedTeams[e.id]?.home || null;
+      const realAway = rko?.away || confirmedTeams[e.id]?.away || null;
+      const realScore = rko && rko.homeScore != null ? `${rko.homeScore}–${rko.awayScore}` : null;
+      const hasScore = realScore != null;
+      const hasTeams = !!(realHome && realAway);
 
       html += `<div class="match-row ko-match-block" style="flex-direction:column;align-items:stretch;gap:4px">
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
@@ -1262,19 +1264,17 @@ function renderPlayerDetail(s) {
             <span style="font-size:.65rem;text-transform:uppercase;letter-spacing:.5px;margin-right:4px">Predicted:</span>
             ${flag(predHome)}${esc(predHome)} v ${flag(predAway)}${esc(predAway)}
           </div>
-          <div class="match-score">
-            <span class="score-pred">${predScore}</span>
-          </div>
-          ${hasReal ? '' : badgeHtml}
-          ${hasReal ? '' : ptsHtml}
+          <div class="match-score"><span class="score-pred">${predScore}</span></div>
+          ${!hasTeams ? badgeHtml : ''}
+          ${!hasTeams ? ptsHtml : ''}
         </div>
-        ${hasReal ? `<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        ${hasTeams ? `<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
           <div class="match-teams" style="font-size:.78rem;font-weight:600">
             <span style="font-size:.65rem;text-transform:uppercase;letter-spacing:.5px;margin-right:4px;color:var(--muted)">Actual:</span>
-            ${flag(realHome||'')}${esc(realHome||'?')} v ${flag(realAway||'')}${esc(realAway||'?')}
+            ${flag(realHome)}${esc(realHome)} v ${flag(realAway)}${esc(realAway)}
           </div>
           <div class="match-score">
-            <span class="score-real">${realScore}</span>
+            <span class="${hasScore ? 'score-real' : ''}" style="${!hasScore ? 'color:var(--muted);font-style:italic;font-size:.75rem' : ''}">${hasScore ? realScore : 'not played yet'}</span>
           </div>
           ${badgeHtml}
           ${ptsHtml}
