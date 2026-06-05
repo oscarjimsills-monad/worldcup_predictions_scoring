@@ -241,23 +241,55 @@ main{padding:20px;max-width:1200px;margin:0 auto}
 .bracket-winner{background:rgba(200,169,81,.07)}
 .bracket-match-id{font-size:.65rem;color:var(--border);padding:3px 8px;background:var(--surface2);text-align:center}
 @media(max-width:600px){.groups-grid{grid-template-columns:1fr}.bracket-matches{grid-template-columns:1fr}}
+
+/* Language modal */
+.lang-modal{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:300;display:flex;align-items:center;justify-content:center}
+.lang-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:36px 32px;text-align:center;max-width:360px;width:90%}
+.lang-card h2{font-size:1.4rem;color:var(--primary);margin-bottom:6px}
+.lang-card p{font-size:.85rem;color:var(--muted);margin-bottom:28px}
+.lang-buttons{display:flex;gap:14px;justify-content:center}
+.lang-btn{flex:1;padding:16px 10px;border-radius:10px;border:2px solid var(--border);background:var(--surface2);color:var(--text);cursor:pointer;font-family:inherit;font-size:1rem;font-weight:600;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:6px}
+.lang-btn:hover{border-color:var(--primary);color:var(--primary)}
+.lang-btn .lang-flag{font-size:2rem}
+.lang-btn .lang-name{font-size:.85rem}
+.lang-toggle{font-size:.78rem;padding:4px 10px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:inherit;transition:all .15s}
+.lang-toggle:hover{border-color:var(--primary);color:var(--primary)}
 </style>
 </head>
 <body>
 
+<!-- LANGUAGE MODAL -->
+<div id="lang-modal" class="lang-modal" style="display:none">
+  <div class="lang-card">
+    <h2>⚽ World Cup 2026</h2>
+    <p>Choose your language · Elige tu idioma</p>
+    <div class="lang-buttons">
+      <button class="lang-btn" onclick="setLanguage('en')">
+        <span class="lang-flag">🇬🇧</span>
+        <span class="lang-name">English</span>
+      </button>
+      <button class="lang-btn" onclick="setLanguage('es')">
+        <span class="lang-flag">🇪🇸</span>
+        <span class="lang-name">Español</span>
+      </button>
+    </div>
+  </div>
+</div>
+
 <header>
-  <div class="logo">⚽ 2026 FIFA World Cup <span>Leaderboard</span></div>
+  <div class="logo">⚽ 2026 FIFA World Cup <span id="logo-sub">Leaderboard</span></div>
   <div class="header-actions">
     <div id="tournament-stage" class="stage-badge" style="display:none"></div>
     <div id="header-status" class="status-info"></div>
+    <button class="lang-toggle" id="lang-toggle-btn" onclick="showLangModal()">🇬🇧 EN</button>
     <button class="btn btn-ghost btn-sm" onclick="showAdminLogin()">🔒 Admin</button>
   </div>
 </header>
 
 <nav id="main-nav">
-  <div class="tab active" data-tab="leaderboard" onclick="showTab('leaderboard')">🏆 Leaderboard</div>
-  <div class="tab" data-tab="bracket" onclick="showTab('bracket')">📊 Groups & Bracket</div>
-  <div class="tab" data-tab="scoring" onclick="showTab('scoring')">📖 How to Score</div>
+  <div class="tab active" data-tab="leaderboard" onclick="showTab('leaderboard')" data-i18n="tabLeaderboard">🏆 Leaderboard</div>
+  <div class="tab" data-tab="bracket" onclick="showTab('bracket')" data-i18n="tabBracket">📊 Groups & Bracket</div>
+  <div class="tab" data-tab="scoring" onclick="showTab('scoring')" data-i18n="tabScoring">📖 How to Score</div>
   <div class="tab admin-only" data-tab="admin-results" onclick="showTab('admin-results')" style="display:none">📋 Enter Results</div>
   <div class="tab admin-only" data-tab="admin-upload" onclick="showTab('admin-upload')" style="display:none">⬆ Upload Predictions</div>
   <div class="tab admin-only" data-tab="admin-awards" onclick="showTab('admin-awards')" style="display:none">🏅 Awards</div>
@@ -289,61 +321,7 @@ main{padding:20px;max-width:1200px;margin:0 auto}
 
 <!-- HOW TO SCORE -->
 <div id="scoring-section" class="section">
-  <div class="card">
-    <h3>📖 How Points Are Scored</h3>
-    <p class="text-muted" style="margin-bottom:16px">Points are awarded across four categories. The earlier you predict correctly, the more it's worth.</p>
-
-    <div class="scoring-category">
-      <div class="scoring-cat-title">⚽ Group Stage Matches <span class="scoring-cat-sub">72 matches</span></div>
-      <div class="scoring-rows">
-        <div class="scoring-row"><span class="scoring-pts">3 pts</span><span>Exact scoreline (e.g. 2–1)</span></div>
-        <div class="scoring-row"><span class="scoring-pts">1 pt</span><span>Correct outcome (win/draw/loss) but wrong score</span></div>
-        <div class="scoring-row"><span class="scoring-pts">0 pts</span><span>Wrong outcome</span></div>
-      </div>
-    </div>
-
-    <div class="scoring-category">
-      <div class="scoring-cat-title">📊 Group Standings <span class="scoring-cat-sub">Locked in when all 6 group matches are played</span></div>
-      <div class="scoring-rows">
-        <div class="scoring-row"><span class="scoring-pts">3 pts</span><span>Predicted the exact finishing order (1st, 2nd, 3rd, 4th) for a group</span></div>
-        <div class="scoring-row"><span class="scoring-pts">1 pt</span><span>Predicted the group winner correctly (but wrong overall order)</span></div>
-        <div class="scoring-row"><span class="scoring-pts">0 pts</span><span>Wrong group winner</span></div>
-      </div>
-    </div>
-
-    <div class="scoring-category">
-      <div class="scoring-cat-title">🏟 Knockout Matches <span class="scoring-cat-sub">R32 · R16 · QF · SF · 3rd Place · Final</span></div>
-      <div class="scoring-rows">
-        <div class="scoring-row"><span class="scoring-pts">4 pts</span><span>Exact scoreline with correct teams</span></div>
-        <div class="scoring-row"><span class="scoring-pts">2 pts</span><span>Correct winner with correct teams (wrong score)</span></div>
-        <div class="scoring-row"><span class="scoring-pts">1 pt</span><span>Correct winner but wrong teams (right winner, wrong matchup)</span></div>
-        <div class="scoring-row"><span class="scoring-pts">0 pts</span><span>Wrong winner</span></div>
-        <div class="scoring-row" style="margin-top:6px;border-top:1px solid var(--border);padding-top:6px">
-          <span class="scoring-pts" style="color:var(--blue)">+1 pt</span><span>Bonus: correctly predicted which round a team was eliminated</span>
-        </div>
-      </div>
-      <div class="notice" style="margin-top:8px">The Final and 3rd Place match score 7 pts / 5 pts instead of 4 / 2 for exact / correct winner.</div>
-    </div>
-
-    <div class="scoring-category">
-      <div class="scoring-cat-title">🏅 Tournament Awards</div>
-      <div class="scoring-rows">
-        <div class="scoring-row"><span class="scoring-pts">5 pts</span><span>🏆 Champion</span></div>
-        <div class="scoring-row"><span class="scoring-pts">5 pts</span><span>🥉 Third Place Winner</span></div>
-        <div class="scoring-row"><span class="scoring-pts">3 pts</span><span>🥾 Golden Boot (Top Scorer)</span></div>
-        <div class="scoring-row"><span class="scoring-pts">3 pts</span><span>⚽ Golden Ball (Best Player)</span></div>
-        <div class="scoring-row"><span class="scoring-pts">3 pts</span><span>🧤 Golden Glove (Best Goalkeeper)</span></div>
-      </div>
-    </div>
-
-    <div class="scoring-category">
-      <div class="scoring-cat-title">🟥 Red Card Jokers <span class="scoring-cat-sub">Up to 3 jokers per player</span></div>
-      <div class="scoring-rows">
-        <div class="scoring-row"><span class="scoring-pts">10 pts</span><span>A red card is shown in the match you picked — huge risk, huge reward</span></div>
-        <div class="scoring-row"><span class="scoring-pts">0 pts</span><span>No red card shown, or wrong match</span></div>
-      </div>
-    </div>
-  </div>
+  <div id="scoring-container"></div>
 </div>
 
 <!-- ADMIN: ENTER RESULTS -->
@@ -644,6 +622,262 @@ const THIRD_PLACE_SLOTS = {
 };
 
 const ROUND_ORDER = ['Group','R32','R16','QF','SF','Finals'];
+
+// ===================== LANGUAGE / TRANSLATIONS =====================
+
+let currentLang = localStorage.getItem('lang') || null;
+
+const STRINGS = {
+  en: {
+    tabLeaderboard: '🏆 Leaderboard',
+    tabBracket: '📊 Groups & Bracket',
+    tabScoring: '📖 How to Score',
+    logoSub: 'Leaderboard',
+    langToggle: '🇬🇧 EN',
+    // Leaderboard
+    matchesPlayed: (n) => `${n} match${n===1?'':'es'} played`,
+    updated: 'updated',
+    noPredictions: 'No predictions uploaded yet.',
+    configureRepo: 'Configure GitHub repo in Admin → Config to view the leaderboard.',
+    totalPoints: 'Total Points',
+    exactScores: 'Exact Scores',
+    correctOutcomes: 'Correct Outcomes',
+    jokersScored: 'Jokers Scored',
+    groupStageLabel: 'Group Stage',
+    tournamentAwards: 'Tournament Awards',
+    redCardJokers: 'Red Card Jokers',
+    predicted: 'Predicted:',
+    actual: 'Actual:',
+    predictedOrder: 'Predicted order:',
+    actualOrder: 'Actual order:',
+    notPredicted: 'Not predicted',
+    notPlayedYet: 'not played yet',
+    penWins: (team) => `Pen: ${team} wins`,
+    // Badges
+    badgeExact: 'Exact', badgeWinner: 'Outcome ✓', badgePartial: 'Winner (no opp)',
+    badgePen: 'Pen scoreline', badgeElim: '+1 Elim', badgeWrong: 'Wrong',
+    badgeNA: 'n/a', badgePending: 'Pending', badgeFlag: '⚠ Flagged',
+    // Bracket
+    groupStage: 'Group Stage',
+    knockoutBracket: 'Knockout Bracket',
+    complete: 'Complete',
+    notStarted: 'Not started',
+    provisional: 'Provisional',
+    matchesOf: (p,t) => `${p}/${t} played`,
+    matchesRemaining: (n) => `${n} match${n===1?'':'es'} remaining`,
+    qualified: 'Qualified',
+    possible3rd: 'Possible 3rd',
+    tbd: 'TBD',
+    // Rounds
+    r32: 'Round of 32', r16: 'Round of 16', qf: 'Quarter-finals',
+    sf: 'Semi-finals', thirdPlace: '🥉 Third Place Play-off', final: '🏆 Final',
+    // Stage indicators
+    stageGroupMD: (n) => `Group Stage · Matchday ${n}`,
+    stageGroupComplete: 'Group Stage Complete',
+    stageR32: '🏟 Round of 32', stageR16: 'Round of 16',
+    stageQF: '⚡ Quarter-finals', stageSF: '🔥 Semi-finals', stageFinal: '🏆 Final',
+    // Bracket status
+    lastUpdated: (t) => `Last updated ${t}`,
+    refresh: '↻ Refresh',
+    // Awards
+    topScorer: '🥾 Top Scorer', bestPlayer: '⚽ Best Player',
+    bestGK: '🧤 Best GK', champion: '🏆 Champion', thirdPlaceWinner: '🥉 3rd Place',
+    notSubmitted: 'not submitted', notSetYet: 'Not set yet', real: 'Real:',
+    adminConfirmed: '✓ Admin confirmed', adminRejected: '✗ Admin rejected',
+    // Jokers
+    matchLabel: (id,h,a) => `Match ${id}: ${h} v ${a}`,
+    // Scoring tab
+    scoringTitle: '📖 How Points Are Scored',
+    scoringSubtitle: 'Points are awarded across five categories. The earlier you predict correctly, the more it\'s worth.',
+    cat1Title: '⚽ Group Stage Matches', cat1Sub: '72 matches',
+    cat1r1: 'Exact scoreline (e.g. 2–1)', cat1r2: 'Correct outcome (win/draw/loss) but wrong score', cat1r3: 'Wrong outcome',
+    cat2Title: '📊 Group Standings', cat2Sub: 'Locked in when all 6 group matches are played',
+    cat2r1: 'Predicted the exact finishing order (1st, 2nd, 3rd, 4th)', cat2r2: 'Predicted the group winner correctly (wrong overall order)', cat2r3: 'Wrong group winner',
+    cat3Title: '🏟 Knockout Matches', cat3Sub: 'R32 · R16 · QF · SF · 3rd Place · Final',
+    cat3r1: 'Exact scoreline with correct teams', cat3r2: 'Correct winner with correct teams (wrong score)',
+    cat3r3: 'Correct winner but wrong teams', cat3r4: 'Wrong winner',
+    cat3bonus: 'Bonus: correctly predicted which round a team was eliminated',
+    cat3note: 'The Final and 3rd Place match score 7 pts / 5 pts instead of 4 / 2.',
+    cat4Title: '🏅 Tournament Awards',
+    cat4r1: '🏆 Champion', cat4r2: '🥉 Third Place Winner', cat4r3: '🥾 Golden Boot (Top Scorer)',
+    cat4r4: '⚽ Golden Ball (Best Player)', cat4r5: '🧤 Golden Glove (Best Goalkeeper)',
+    cat5Title: '🟥 Red Card Jokers', cat5Sub: 'Up to 3 jokers per player',
+    cat5r1: 'A red card is shown in the match you picked — huge risk, huge reward',
+    cat5r2: 'No red card shown, or wrong match',
+  },
+  es: {
+    tabLeaderboard: '🏆 Clasificación',
+    tabBracket: '📊 Grupos y Llave',
+    tabScoring: '📖 Sistema de Puntos',
+    logoSub: 'Clasificación',
+    langToggle: '🇪🇸 ES',
+    // Leaderboard
+    matchesPlayed: (n) => `${n} partido${n===1?'':'s'} jugado${n===1?'':'s'}`,
+    updated: 'actualizado',
+    noPredictions: 'Aún no hay predicciones cargadas.',
+    configureRepo: 'Configura el repositorio en Admin → Config para ver la clasificación.',
+    totalPoints: 'Puntos Totales',
+    exactScores: 'Marcadores Exactos',
+    correctOutcomes: 'Resultados Correctos',
+    jokersScored: 'Jokers Acertados',
+    groupStageLabel: 'Fase de Grupos',
+    tournamentAwards: 'Premios del Torneo',
+    redCardJokers: 'Jokers Tarjeta Roja',
+    predicted: 'Predicho:',
+    actual: 'Real:',
+    predictedOrder: 'Orden predicho:',
+    actualOrder: 'Orden real:',
+    notPredicted: 'No predicho',
+    notPlayedYet: 'aún no jugado',
+    penWins: (team) => `Pen: gana ${team}`,
+    // Badges
+    badgeExact: 'Exacto', badgeWinner: 'Resultado ✓', badgePartial: 'Ganador (sin rival)',
+    badgePen: 'Penales', badgeElim: '+1 Elim', badgeWrong: 'Incorrecto',
+    badgeNA: 'n/a', badgePending: 'Pendiente', badgeFlag: '⚠ Revisar',
+    // Bracket
+    groupStage: 'Fase de Grupos',
+    knockoutBracket: 'Llave Eliminatoria',
+    complete: 'Completo',
+    notStarted: 'No iniciado',
+    provisional: 'Provisional',
+    matchesOf: (p,t) => `${p}/${t} jugados`,
+    matchesRemaining: (n) => `${n} partido${n===1?'':'s'} restante${n===1?'':'s'}`,
+    qualified: 'Clasificado',
+    possible3rd: 'Posible 3°',
+    tbd: 'Por definir',
+    // Rounds
+    r32: 'Ronda de 32', r16: 'Octavos de Final', qf: 'Cuartos de Final',
+    sf: 'Semifinales', thirdPlace: '🥉 Tercer Puesto', final: '🏆 Final',
+    // Stage indicators
+    stageGroupMD: (n) => `Fase de Grupos · Jornada ${n}`,
+    stageGroupComplete: 'Fase de Grupos Completa',
+    stageR32: '🏟 Ronda de 32', stageR16: 'Octavos de Final',
+    stageQF: '⚡ Cuartos de Final', stageSF: '🔥 Semifinales', stageFinal: '🏆 Final',
+    // Bracket status
+    lastUpdated: (t) => `Última actualización: ${t}`,
+    refresh: '↻ Actualizar',
+    // Awards
+    topScorer: '🥾 Goleador', bestPlayer: '⚽ Mejor Jugador',
+    bestGK: '🧤 Mejor Portero', champion: '🏆 Campeón', thirdPlaceWinner: '🥉 3er Puesto',
+    notSubmitted: 'no enviado', notSetYet: 'Aún no definido', real: 'Real:',
+    adminConfirmed: '✓ Confirmado por admin', adminRejected: '✗ Rechazado por admin',
+    // Jokers
+    matchLabel: (id,h,a) => `Partido ${id}: ${h} vs ${a}`,
+    // Scoring tab
+    scoringTitle: '📖 Sistema de Puntuación',
+    scoringSubtitle: 'Los puntos se otorgan en cinco categorías. Cuanto antes aciertes, más vale.',
+    cat1Title: '⚽ Partidos de Fase de Grupos', cat1Sub: '72 partidos',
+    cat1r1: 'Marcador exacto (ej. 2–1)', cat1r2: 'Resultado correcto (victoria/empate/derrota) pero marcador incorrecto', cat1r3: 'Resultado incorrecto',
+    cat2Title: '📊 Clasificación de Grupos', cat2Sub: 'Se confirma al jugarse los 6 partidos del grupo',
+    cat2r1: 'Predijiste el orden exacto de clasificación (1°, 2°, 3°, 4°)', cat2r2: 'Predijiste el ganador del grupo correctamente (orden incorrecto)', cat2r3: 'Ganador del grupo incorrecto',
+    cat3Title: '🏟 Partidos Eliminatorios', cat3Sub: 'R32 · R16 · QF · SF · 3° Puesto · Final',
+    cat3r1: 'Marcador exacto con los equipos correctos', cat3r2: 'Ganador correcto con equipos correctos (marcador incorrecto)',
+    cat3r3: 'Ganador correcto pero equipos incorrectos', cat3r4: 'Ganador incorrecto',
+    cat3bonus: 'Bono: predijiste correctamente en qué ronda fue eliminado un equipo',
+    cat3note: 'La Final y el 3er Puesto puntúan 7 / 5 pts en vez de 4 / 2.',
+    cat4Title: '🏅 Premios del Torneo',
+    cat4r1: '🏆 Campeón', cat4r2: '🥉 Tercer Puesto', cat4r3: '🥾 Bota de Oro (Goleador)',
+    cat4r4: '⚽ Balón de Oro (Mejor Jugador)', cat4r5: '🧤 Guante de Oro (Mejor Portero)',
+    cat5Title: '🟥 Jokers Tarjeta Roja', cat5Sub: 'Hasta 3 jokers por participante',
+    cat5r1: 'Se muestra una tarjeta roja en el partido que elegiste — gran riesgo, gran recompensa',
+    cat5r2: 'Sin tarjeta roja, o partido incorrecto',
+  }
+};
+
+function t(key, ...args) {
+  const s = STRINGS[currentLang || 'en'];
+  const val = s?.[key];
+  if (typeof val === 'function') return val(...args);
+  return val ?? STRINGS.en[key] ?? key;
+}
+
+function setLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('lang', lang);
+  document.getElementById('lang-modal').style.display = 'none';
+  applyLanguage();
+  // Re-render everything
+  renderLeaderboard();
+  renderBracketTab();
+  renderScoringTab();
+  updateStageIndicator();
+  updateBracketStatus();
+}
+
+function showLangModal() {
+  document.getElementById('lang-modal').style.display = 'flex';
+}
+
+function applyLanguage() {
+  const lang = currentLang || 'en';
+  // Toggle button
+  document.getElementById('lang-toggle-btn').textContent = t('langToggle');
+  // Logo subtitle
+  document.getElementById('logo-sub').textContent = t('logoSub');
+  // Nav tabs
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    el.textContent = t(key);
+  });
+  // Refresh button text
+  const rb = document.getElementById('bracket-refresh-btn');
+  if (rb) rb.textContent = t('refresh');
+}
+
+function renderScoringTab() {
+  const c = document.getElementById('scoring-container');
+  if (!c) return;
+  c.innerHTML = `<div class="card">
+    <h3>${t('scoringTitle')}</h3>
+    <p class="text-muted" style="margin-bottom:16px">${t('scoringSubtitle')}</p>
+    <div class="scoring-category">
+      <div class="scoring-cat-title">${t('cat1Title')} <span class="scoring-cat-sub">${t('cat1Sub')}</span></div>
+      <div class="scoring-rows">
+        <div class="scoring-row"><span class="scoring-pts">3 pts</span><span>${t('cat1r1')}</span></div>
+        <div class="scoring-row"><span class="scoring-pts">1 pt</span><span>${t('cat1r2')}</span></div>
+        <div class="scoring-row"><span class="scoring-pts">0 pts</span><span>${t('cat1r3')}</span></div>
+      </div>
+    </div>
+    <div class="scoring-category">
+      <div class="scoring-cat-title">${t('cat2Title')} <span class="scoring-cat-sub">${t('cat2Sub')}</span></div>
+      <div class="scoring-rows">
+        <div class="scoring-row"><span class="scoring-pts">3 pts</span><span>${t('cat2r1')}</span></div>
+        <div class="scoring-row"><span class="scoring-pts">1 pt</span><span>${t('cat2r2')}</span></div>
+        <div class="scoring-row"><span class="scoring-pts">0 pts</span><span>${t('cat2r3')}</span></div>
+      </div>
+    </div>
+    <div class="scoring-category">
+      <div class="scoring-cat-title">${t('cat3Title')} <span class="scoring-cat-sub">${t('cat3Sub')}</span></div>
+      <div class="scoring-rows">
+        <div class="scoring-row"><span class="scoring-pts">4 pts</span><span>${t('cat3r1')}</span></div>
+        <div class="scoring-row"><span class="scoring-pts">2 pts</span><span>${t('cat3r2')}</span></div>
+        <div class="scoring-row"><span class="scoring-pts">1 pt</span><span>${t('cat3r3')}</span></div>
+        <div class="scoring-row"><span class="scoring-pts">0 pts</span><span>${t('cat3r4')}</span></div>
+        <div class="scoring-row" style="margin-top:6px;border-top:1px solid var(--border);padding-top:6px">
+          <span class="scoring-pts" style="color:var(--blue)">+1 pt</span><span>${t('cat3bonus')}</span>
+        </div>
+      </div>
+      <div class="notice" style="margin-top:8px">${t('cat3note')}</div>
+    </div>
+    <div class="scoring-category">
+      <div class="scoring-cat-title">${t('cat4Title')}</div>
+      <div class="scoring-rows">
+        <div class="scoring-row"><span class="scoring-pts">5 pts</span><span>${t('cat4r1')}</span></div>
+        <div class="scoring-row"><span class="scoring-pts">5 pts</span><span>${t('cat4r2')}</span></div>
+        <div class="scoring-row"><span class="scoring-pts">3 pts</span><span>${t('cat4r3')}</span></div>
+        <div class="scoring-row"><span class="scoring-pts">3 pts</span><span>${t('cat4r4')}</span></div>
+        <div class="scoring-row"><span class="scoring-pts">3 pts</span><span>${t('cat4r5')}</span></div>
+      </div>
+    </div>
+    <div class="scoring-category">
+      <div class="scoring-cat-title">${t('cat5Title')} <span class="scoring-cat-sub">${t('cat5Sub')}</span></div>
+      <div class="scoring-rows">
+        <div class="scoring-row"><span class="scoring-pts">10 pts</span><span>${t('cat5r1')}</span></div>
+        <div class="scoring-row"><span class="scoring-pts">0 pts</span><span>${t('cat5r2')}</span></div>
+      </div>
+    </div>
+  </div>`;
+}
 
 // ===================== ADMIN AUTH =====================
 
@@ -2311,6 +2545,7 @@ function showTab(tab) {
   if (tabEl) tabEl.classList.add('active');
 
   if (tab === 'bracket') { renderBracketTab(); updateBracketStatus(); }
+  if (tab === 'scoring') renderScoringTab();
   if (tab === 'admin-results') loadAdminResultsUI();
   if (tab === 'admin-upload') renderExistingUploads();
   if (tab === 'admin-awards') loadAwardsUI();
@@ -2342,6 +2577,14 @@ function escAttr(s) {
 // ===================== INIT =====================
 
 async function init() {
+  // Show language selection if not yet chosen
+  if (!localStorage.getItem('lang')) {
+    document.getElementById('lang-modal').style.display = 'flex';
+  } else {
+    applyLanguage();
+    renderScoringTab();
+  }
+
   // Restore admin session
   if (isAdmin()) {
     document.querySelectorAll('.admin-only').forEach(el => el.style.display = '');
