@@ -687,23 +687,20 @@ const STRINGS = {
     // Jokers
     matchLabel: (id,h,a) => `Match ${id}: ${h} v ${a}`,
     // Scoring tab
-    scoringTitle: '📖 How Points Are Scored',
-    scoringSubtitle: 'Points are awarded across five categories. The earlier you predict correctly, the more it\'s worth.',
-    cat1Title: '⚽ Group Stage Matches', cat1Sub: '72 matches',
-    cat1r1: 'Exact scoreline (e.g. 2–1)', cat1r2: 'Correct outcome (win/draw/loss) but wrong score', cat1r3: 'Wrong outcome',
-    cat2Title: '📊 Group Standings', cat2Sub: 'Locked in when all 6 group matches are played',
-    cat2r1: 'Predicted the exact finishing order (1st, 2nd, 3rd, 4th)', cat2r2: 'Predicted the group winner correctly (wrong overall order)', cat2r3: 'Wrong group winner',
-    cat3Title: '🏟 Knockout Matches', cat3Sub: 'R32 · R16 · QF · SF · 3rd Place · Final',
-    cat3r1: 'Exact scoreline with correct teams', cat3r2: 'Correct winner with correct teams (wrong score)',
-    cat3r3: 'Correct winner but wrong teams', cat3r4: 'Wrong winner',
-    cat3bonus: 'Bonus: correctly predicted which round a team was eliminated',
-    cat3note: 'The Final and 3rd Place match score 7 pts / 5 pts instead of 4 / 2.',
+    scoringTitle: 'How to Score Points',
+    cat1Title: '⚽ Group Stage Matches',
+    cat1rows: [['3 pts','Exact scoreline'],['1 pt','Correct outcome (right win/draw/loss, wrong score)'],['0 pts','Wrong outcome']],
+    cat2Title: '📊 Group Standings',
+    cat2note: 'Scored once all 6 matches in the group are played.',
+    cat2rows: [['3 pts','Exact finishing order (1st–4th)'],['1 pt','Correct group winner only'],['0 pts','Wrong group winner']],
+    cat3Title: '🏟 Knockout Matches',
+    cat3note: 'The Final and 3rd Place match are worth more: 7 pts exact / 5 pts correct winner.',
+    cat3rows: [['4 pts','Exact scoreline & correct teams'],['2 pts','Correct winner & correct teams'],['1 pt','Correct winner, wrong teams'],['0 pts','Wrong winner'],['+1 pt','Bonus per team correctly eliminated in the right round']],
     cat4Title: '🏅 Tournament Awards',
-    cat4r1: '🏆 Champion', cat4r2: '🥉 Third Place Winner', cat4r3: '🥾 Golden Boot (Top Scorer)',
-    cat4r4: '⚽ Golden Ball (Best Player)', cat4r5: '🧤 Golden Glove (Best Goalkeeper)',
-    cat5Title: '🟥 Red Card Jokers', cat5Sub: 'Up to 3 jokers per player',
-    cat5r1: 'A red card is shown in the match you picked — huge risk, huge reward',
-    cat5r2: 'No red card shown, or wrong match',
+    cat4rows: [['5 pts','Champion 🏆'],['5 pts','Third Place Winner 🥉'],['3 pts','Golden Boot (Top Scorer) 🥾'],['3 pts','Golden Ball (Best Player) ⚽'],['3 pts','Golden Glove (Best GK) 🧤']],
+    cat5Title: '🟥 Red Card Jokers',
+    cat5note: 'Pick up to 3 matches where you think a red card will be shown.',
+    cat5rows: [['10 pts','Red card shown in your chosen match'],['0 pts','No red card shown']],
   },
   es: {
     tabLeaderboard: '🏆 Clasificación',
@@ -764,23 +761,20 @@ const STRINGS = {
     // Jokers
     matchLabel: (id,h,a) => `Partido ${id}: ${h} vs ${a}`,
     // Scoring tab
-    scoringTitle: '📖 Sistema de Puntuación',
-    scoringSubtitle: 'Los puntos se otorgan en cinco categorías. Cuanto antes aciertes, más vale.',
-    cat1Title: '⚽ Partidos de Fase de Grupos', cat1Sub: '72 partidos',
-    cat1r1: 'Marcador exacto (ej. 2–1)', cat1r2: 'Resultado correcto (victoria/empate/derrota) pero marcador incorrecto', cat1r3: 'Resultado incorrecto',
-    cat2Title: '📊 Clasificación de Grupos', cat2Sub: 'Se confirma al jugarse los 6 partidos del grupo',
-    cat2r1: 'Predijiste el orden exacto de clasificación (1°, 2°, 3°, 4°)', cat2r2: 'Predijiste el ganador del grupo correctamente (orden incorrecto)', cat2r3: 'Ganador del grupo incorrecto',
-    cat3Title: '🏟 Partidos Eliminatorios', cat3Sub: 'R32 · R16 · QF · SF · 3° Puesto · Final',
-    cat3r1: 'Marcador exacto con los equipos correctos', cat3r2: 'Ganador correcto con equipos correctos (marcador incorrecto)',
-    cat3r3: 'Ganador correcto pero equipos incorrectos', cat3r4: 'Ganador incorrecto',
-    cat3bonus: 'Bono: predijiste correctamente en qué ronda fue eliminado un equipo',
-    cat3note: 'La Final y el 3er Puesto puntúan 7 / 5 pts en vez de 4 / 2.',
+    scoringTitle: 'Sistema de Puntuación',
+    cat1Title: '⚽ Partidos de Fase de Grupos',
+    cat1rows: [['3 pts','Marcador exacto'],['1 pt','Resultado correcto (victoria/empate/derrota), marcador incorrecto'],['0 pts','Resultado incorrecto']],
+    cat2Title: '📊 Clasificación de Grupos',
+    cat2note: 'Se puntúa cuando los 6 partidos del grupo están jugados.',
+    cat2rows: [['3 pts','Orden de clasificación exacto (1°–4°)'],['1 pt','Solo acertaste al ganador del grupo'],['0 pts','Ganador del grupo incorrecto']],
+    cat3Title: '🏟 Partidos Eliminatorios',
+    cat3note: 'La Final y el 3er Puesto valen más: 7 pts exacto / 5 pts ganador correcto.',
+    cat3rows: [['4 pts','Marcador exacto y equipos correctos'],['2 pts','Ganador correcto y equipos correctos'],['1 pt','Ganador correcto, equipos incorrectos'],['0 pts','Ganador incorrecto'],['+1 pt','Bono por cada equipo eliminado en la ronda correcta']],
     cat4Title: '🏅 Premios del Torneo',
-    cat4r1: '🏆 Campeón', cat4r2: '🥉 Tercer Puesto', cat4r3: '🥾 Bota de Oro (Goleador)',
-    cat4r4: '⚽ Balón de Oro (Mejor Jugador)', cat4r5: '🧤 Guante de Oro (Mejor Portero)',
-    cat5Title: '🟥 Jokers Tarjeta Roja', cat5Sub: 'Hasta 3 jokers por participante',
-    cat5r1: 'Se muestra una tarjeta roja en el partido que elegiste — gran riesgo, gran recompensa',
-    cat5r2: 'Sin tarjeta roja, o partido incorrecto',
+    cat4rows: [['5 pts','Campeón 🏆'],['5 pts','Tercer Puesto 🥉'],['3 pts','Bota de Oro (Goleador) 🥾'],['3 pts','Balón de Oro (Mejor Jugador) ⚽'],['3 pts','Guante de Oro (Mejor Portero) 🧤']],
+    cat5Title: '🟥 Jokers Tarjeta Roja',
+    cat5note: 'Elige hasta 3 partidos en los que crees que habrá tarjeta roja.',
+    cat5rows: [['10 pts','Tarjeta roja mostrada en tu partido elegido'],['0 pts','Sin tarjeta roja']],
   }
 };
 
@@ -827,55 +821,23 @@ function applyLanguage() {
 function renderScoringTab() {
   const c = document.getElementById('scoring-container');
   if (!c) return;
+  function cat(titleKey, rowsKey, noteKey) {
+    const rows = t(rowsKey).map(([pts, desc]) =>
+      `<div class="scoring-row"><span class="scoring-pts">${pts}</span><span>${desc}</span></div>`
+    ).join('');
+    const note = noteKey ? `<div class="notice" style="margin-top:8px">${t(noteKey)}</div>` : '';
+    return `<div class="scoring-category">
+      <div class="scoring-cat-title">${t(titleKey)}</div>
+      <div class="scoring-rows">${rows}</div>${note}
+    </div>`;
+  }
   c.innerHTML = `<div class="card">
     <h3>${t('scoringTitle')}</h3>
-    <p class="text-muted" style="margin-bottom:16px">${t('scoringSubtitle')}</p>
-    <div class="scoring-category">
-      <div class="scoring-cat-title">${t('cat1Title')} <span class="scoring-cat-sub">${t('cat1Sub')}</span></div>
-      <div class="scoring-rows">
-        <div class="scoring-row"><span class="scoring-pts">3 pts</span><span>${t('cat1r1')}</span></div>
-        <div class="scoring-row"><span class="scoring-pts">1 pt</span><span>${t('cat1r2')}</span></div>
-        <div class="scoring-row"><span class="scoring-pts">0 pts</span><span>${t('cat1r3')}</span></div>
-      </div>
-    </div>
-    <div class="scoring-category">
-      <div class="scoring-cat-title">${t('cat2Title')} <span class="scoring-cat-sub">${t('cat2Sub')}</span></div>
-      <div class="scoring-rows">
-        <div class="scoring-row"><span class="scoring-pts">3 pts</span><span>${t('cat2r1')}</span></div>
-        <div class="scoring-row"><span class="scoring-pts">1 pt</span><span>${t('cat2r2')}</span></div>
-        <div class="scoring-row"><span class="scoring-pts">0 pts</span><span>${t('cat2r3')}</span></div>
-      </div>
-    </div>
-    <div class="scoring-category">
-      <div class="scoring-cat-title">${t('cat3Title')} <span class="scoring-cat-sub">${t('cat3Sub')}</span></div>
-      <div class="scoring-rows">
-        <div class="scoring-row"><span class="scoring-pts">4 pts</span><span>${t('cat3r1')}</span></div>
-        <div class="scoring-row"><span class="scoring-pts">2 pts</span><span>${t('cat3r2')}</span></div>
-        <div class="scoring-row"><span class="scoring-pts">1 pt</span><span>${t('cat3r3')}</span></div>
-        <div class="scoring-row"><span class="scoring-pts">0 pts</span><span>${t('cat3r4')}</span></div>
-        <div class="scoring-row" style="margin-top:6px;border-top:1px solid var(--border);padding-top:6px">
-          <span class="scoring-pts" style="color:var(--blue)">+1 pt</span><span>${t('cat3bonus')}</span>
-        </div>
-      </div>
-      <div class="notice" style="margin-top:8px">${t('cat3note')}</div>
-    </div>
-    <div class="scoring-category">
-      <div class="scoring-cat-title">${t('cat4Title')}</div>
-      <div class="scoring-rows">
-        <div class="scoring-row"><span class="scoring-pts">5 pts</span><span>${t('cat4r1')}</span></div>
-        <div class="scoring-row"><span class="scoring-pts">5 pts</span><span>${t('cat4r2')}</span></div>
-        <div class="scoring-row"><span class="scoring-pts">3 pts</span><span>${t('cat4r3')}</span></div>
-        <div class="scoring-row"><span class="scoring-pts">3 pts</span><span>${t('cat4r4')}</span></div>
-        <div class="scoring-row"><span class="scoring-pts">3 pts</span><span>${t('cat4r5')}</span></div>
-      </div>
-    </div>
-    <div class="scoring-category">
-      <div class="scoring-cat-title">${t('cat5Title')} <span class="scoring-cat-sub">${t('cat5Sub')}</span></div>
-      <div class="scoring-rows">
-        <div class="scoring-row"><span class="scoring-pts">10 pts</span><span>${t('cat5r1')}</span></div>
-        <div class="scoring-row"><span class="scoring-pts">0 pts</span><span>${t('cat5r2')}</span></div>
-      </div>
-    </div>
+    ${cat('cat1Title','cat1rows',null)}
+    ${cat('cat2Title','cat2rows','cat2note')}
+    ${cat('cat3Title','cat3rows','cat3note')}
+    ${cat('cat4Title','cat4rows',null)}
+    ${cat('cat5Title','cat5rows','cat5note')}
   </div>`;
 }
 
