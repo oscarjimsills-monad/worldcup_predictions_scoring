@@ -700,7 +700,7 @@ const STRINGS = {
     cat4rows: [['5 pts','Champion 🏆'],['5 pts','Third Place Winner 🥉'],['3 pts','Golden Boot (Top Scorer) 🥾'],['3 pts','Golden Ball (Best Player) ⚽'],['3 pts','Golden Glove (Best GK) 🧤']],
     cat5Title: '🟥 Red Card Jokers',
     cat5note: 'Pick up to 3 matches where you think a red card will be shown.',
-    cat5rows: [['10 pts','Red card shown in your chosen match'],['0 pts','No red card shown']],
+    cat5rows: [['5 pts','Red card shown in your chosen match'],['0 pts','No red card shown']],
   },
   es: {
     tabLeaderboard: '🏆 Clasificación',
@@ -774,7 +774,7 @@ const STRINGS = {
     cat4rows: [['5 pts','Campeón 🏆'],['5 pts','Tercer Puesto 🥉'],['3 pts','Bota de Oro (Goleador) 🥾'],['3 pts','Balón de Oro (Mejor Jugador) ⚽'],['3 pts','Guante de Oro (Mejor Portero) 🧤']],
     cat5Title: '🟥 Jokers Tarjeta Roja',
     cat5note: 'Elige hasta 3 partidos en los que crees que habrá tarjeta roja.',
-    cat5rows: [['10 pts','Tarjeta roja mostrada en tu partido elegido'],['0 pts','Sin tarjeta roja']],
+    cat5rows: [['5 pts','Tarjeta roja mostrada en tu partido elegido'],['0 pts','Sin tarjeta roja']],
   }
 };
 
@@ -1287,7 +1287,7 @@ function scorePlayer(pred, results) {
     } else if (!redCards.includes(matchId) && !redCards.includes(String(matchId))) {
       jStatus = 'no red card'; jBadge = 'joker-nocard';
     } else {
-      jPts = 10; jStatus = 'scored'; jBadge = 'joker-scored'; jokerScored++;
+      jPts = 5; jStatus = 'scored'; jBadge = 'joker-scored'; jokerScored++;
     }
 
     total += jPts;
