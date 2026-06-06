@@ -2030,6 +2030,8 @@ function recomputeStandingsIntoResults(results, g) {
 
 function extractPlayerName(filename) {
   let name = filename.replace(/\.json$/i, '');
+  // Strip wc26 prefix (case-insensitive)
+  name = name.replace(/^wc26/i, '');
   name = name.replace(/predicci[oó]n?_?mundial_?/gi, '');
   name = name.replace(/_/g, ' ').trim();
   // Capitalise each word
