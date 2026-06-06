@@ -1048,7 +1048,7 @@ async function loadAllData() {
         const rawUrl = `https://raw.githubusercontent.com/${c.owner}/${c.repo}/main/predictions/${f.name}`;
         return fetchPrediction(rawUrl, `predictions/${f.name}`).then(data => {
           if (data) {
-            const name = f.name.replace(/\.json$/, '');
+            const name = extractPlayerName(f.name);
             cachedPredictions[name] = data;
           }
         });
