@@ -2029,14 +2029,13 @@ function recomputeStandingsIntoResults(results, g) {
 // ===================== ADMIN: UPLOAD PREDICTIONS =====================
 
 function extractPlayerName(filename) {
-  let name = filename.replace(/\.json$/i, '');
-  // Strip wc26 prefix (case-insensitive)
-  name = name.replace(/^wc26_?/i, '');
-  name = name.replace(/predicci[oó]n?_?mundial_?/gi, '');
-  name = name.replace(/_/g, ' ').trim();
-  // Capitalise each word
-  name = name.replace(/\b\w/g, c => c.toUpperCase());
-  return name || filename.replace(/\.json$/i, '');
+  // Handle wc26_First_Last.json → "First Last"
+  const wc26Match = filename.match(/^wc26_(.+)\.json$/i);
+  if (wc26Match) {
+    return wc26Match[1].replace(/_/g, ' ');
+  }
+  // Fallback: strip .json
+  return filename.replace(/\.json$/i, '');
 }
 
 document.addEventListener('DOMContentLoaded', () => {
