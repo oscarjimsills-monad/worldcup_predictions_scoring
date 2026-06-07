@@ -201,7 +201,13 @@
   "topScorer": "Kylian Mbappé",
   "bestPlayer": "Kylian Mbappé",
   "bestGoalkeeper": "Alisson",
-  "redCardJokers": [],
+  "redCardJokers": [
+    {"matchId": 48, "home": "Uruguay",   "away": "Spain"},
+    {"matchId": 42, "home": "Egypt",     "away": "Iran"},
+    {"matchId": 55, "home": "Argentina", "away": "Algeria"},
+    {"matchId": 19, "home": "USA",       "away": "Paraguay"},
+    {"matchId": 67, "home": "England",   "away": "Croatia"}
+  ],
   "eliminationPredictions": [
     {"team": "Canada",                 "round": "R32"},
     {"team": "Scotland",               "round": "R32"},
