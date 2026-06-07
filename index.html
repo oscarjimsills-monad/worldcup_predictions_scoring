@@ -897,7 +897,7 @@ let currentUser = localStorage.getItem('currentUser') || null;
 
 function handleUserBtn() {
   if (currentUser) {
-    showTab('my-predictions');
+    userLogout();
   } else {
     showUserLogin();
   }
@@ -954,7 +954,7 @@ function updateUserUI() {
   const btn = document.getElementById('user-btn');
   const tab = document.querySelector('[data-tab="my-predictions"]');
   if (currentUser) {
-    btn.textContent = `👤 ${currentUser}`;
+    btn.textContent = `👤 ${currentUser} · Sign out`;
     btn.classList.add('signed-in');
     if (tab) tab.style.display = '';
   } else {
