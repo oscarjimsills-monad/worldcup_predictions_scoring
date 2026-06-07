@@ -163,7 +163,7 @@
     {"team": "New Zealand",       "gp": 3, "w": 0, "d": 1, "l": 2, "gf": 1, "ga": 5,  "pts": 1, "gd": -4, "group": "G"}
   ],
   "knockoutResults": {
-    "73":  {"label": "R32",       "home": "South Korea", "away": "Canada",            "homeScore": 2, "awayScore": 1, "winner": "South Korea",        "loser": "Canada"},
+    "73":  {"label": "R32",       "home": "South Korea", "away": "Canada",            "homeScore": 1, "awayScore": 1, "winner": "South Korea",        "loser": "Canada"},
     "74":  {"label": "R32",       "home": "Germany",     "away": "Scotland",           "homeScore": 3, "awayScore": 1, "winner": "Germany",             "loser": "Scotland"},
     "75":  {"label": "R32",       "home": "Netherlands", "away": "Morocco",            "homeScore": 2, "awayScore": 0, "winner": "Netherlands",         "loser": "Morocco"},
     "76":  {"label": "R32",       "home": "Brazil",      "away": "Sweden",             "homeScore": 2, "awayScore": 0, "winner": "Brazil",              "loser": "Sweden"},
@@ -186,13 +186,13 @@
     "93":  {"label": "R16",       "home": "Colombia",    "away": "Spain",              "homeScore": 1, "awayScore": 2, "winner": "Spain",               "loser": "Colombia"},
     "94":  {"label": "R16",       "home": "USA",         "away": "Belgium",            "homeScore": 2, "awayScore": 1, "winner": "USA",                 "loser": "Belgium"},
     "95":  {"label": "R16",       "home": "Argentina",   "away": "Turkey",             "homeScore": 3, "awayScore": 0, "winner": "Argentina",           "loser": "Turkey"},
-    "96":  {"label": "R16",       "home": "Switzerland", "away": "Portugal",           "homeScore": 1, "awayScore": 2, "winner": "Portugal",            "loser": "Switzerland"},
+    "96":  {"label": "R16",       "home": "Switzerland", "away": "Portugal",           "homeScore": 1, "awayScore": 1, "winner": "Portugal",            "loser": "Switzerland"},
     "97":  {"label": "QF",        "home": "France",      "away": "Netherlands",        "homeScore": 2, "awayScore": 1, "winner": "France",              "loser": "Netherlands"},
     "98":  {"label": "QF",        "home": "Spain",       "away": "USA",                "homeScore": 3, "awayScore": 1, "winner": "Spain",               "loser": "USA"},
-    "99":  {"label": "QF",        "home": "Brazil",      "away": "England",            "homeScore": 2, "awayScore": 1, "winner": "Brazil",              "loser": "England"},
+    "99":  {"label": "QF",        "home": "Brazil",      "away": "England",            "homeScore": 1, "awayScore": 1, "winner": "Brazil",              "loser": "England"},
     "100": {"label": "QF",        "home": "Argentina",   "away": "Portugal",           "homeScore": 2, "awayScore": 1, "winner": "Argentina",           "loser": "Portugal"},
     "101": {"label": "SF",        "home": "France",      "away": "Spain",              "homeScore": 2, "awayScore": 1, "winner": "France",              "loser": "Spain"},
-    "102": {"label": "SF",        "home": "Brazil",      "away": "Argentina",          "homeScore": 2, "awayScore": 1, "winner": "Brazil",              "loser": "Argentina"},
+    "102": {"label": "SF",        "home": "Brazil",      "away": "Argentina",          "homeScore": 1, "awayScore": 1, "winner": "Brazil",              "loser": "Argentina"},
     "103": {"label": "3rd Place", "home": "Spain",       "away": "Argentina",          "homeScore": 3, "awayScore": 2, "winner": "Spain",               "loser": "Argentina"},
     "104": {"label": "Final",     "home": "France",      "away": "Brazil",             "homeScore": 2, "awayScore": 1, "winner": "France",              "loser": "Brazil"}
   },
