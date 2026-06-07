@@ -1109,7 +1109,7 @@ async function ghPut(path, content, message, sha) {
   const c = getConfig();
   const body = {
     message,
-    content: btoa(unescape(encodeURIComponent(content))),
+    content: btoa(String.fromCharCode(...new TextEncoder().encode(content))),
   };
   if (sha) body.sha = sha;
   const r = await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}`, {
@@ -2334,6 +2334,11 @@ async function savePastedPrediction() {
     errEl.textContent = 'Could not parse — check the format.'; errEl.style.display = 'inline'; return;
   }
 
+  if (cachedPredictions[name]) {
+    const overwrite = confirm(`A prediction for "${name}" already exists. Overwrite it?`);
+    if (!overwrite) return;
+  }
+
   const json = JSON.stringify(parsed, null, 2);
   const ok = await writeFile(`predictions/${name}.json`, json, `Upload prediction: ${name}`);
   if (ok) {
@@ -2354,6 +2359,10 @@ async function uploadAllPredictions() {
     const nameEl = document.getElementById(`upload-name-${i}`);
     const statusEl = document.getElementById(`upload-status-${i}`);
     const playerName = nameEl?.value.trim() || `Player ${i + 1}`;
+    if (cachedPredictions[playerName]) {
+      const overwrite = confirm(`A prediction for "${playerName}" already exists. Overwrite it?`);
+      if (!overwrite) { statusEl.textContent = '⚠ Skipped'; statusEl.className = 'upload-status'; continue; }
+    }
     statusEl.textContent = '⏳ Uploading…';
     statusEl.className = 'upload-status';
     try {
