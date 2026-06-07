@@ -2411,7 +2411,7 @@ async function renderExistingUploads() {
 
 async function deletePrediction(name) {
   if (!confirm(`Delete prediction for "${name}"? This cannot be undone.`)) return;
-  const statusEl = document.getElementById(`del-status-${name}`);
+  const statusEl = document.getElementById(`del-status-${esc(name)}`);
   if (statusEl) { statusEl.textContent = 'Deleting…'; statusEl.style.color = 'var(--muted)'; }
   try {
     const path = `predictions/${name}.json`;
