@@ -333,7 +333,7 @@ main{padding:20px;max-width:1200px;margin:0 auto}
     <div class="status-info" id="lb-status">Loading…</div>
     <div style="display:flex;align-items:center;gap:8px">
       <div id="offline-banner" class="offline-banner">⚠ Offline — showing cached results</div>
-      <button class="btn btn-ghost btn-sm" onclick="loadAllData()">↻ Refresh</button>
+      <button class="btn btn-ghost btn-sm" onclick="loadAllData()" data-i18n="refresh">↻ Refresh</button>
     </div>
   </div>
   <div id="lb-container">
@@ -345,7 +345,7 @@ main{padding:20px;max-width:1200px;margin:0 auto}
 <div id="bracket-section" class="section">
   <div class="status-bar" style="margin-bottom:12px">
     <div class="status-info" id="bracket-status"></div>
-    <button class="btn btn-ghost btn-sm" onclick="loadAllData()">↻ Refresh</button>
+    <button class="btn btn-ghost btn-sm" onclick="loadAllData()" data-i18n="refresh">↻ Refresh</button>
   </div>
   <div id="bracket-container"><div class="empty-state"><div class="spinner"></div> Loading…</div></div>
 </div>
@@ -866,9 +866,6 @@ function applyLanguage() {
     const key = el.getAttribute('data-i18n');
     el.textContent = t(key);
   });
-  // Refresh button text
-  const rb = document.getElementById('bracket-refresh-btn');
-  if (rb) rb.textContent = t('refresh');
 }
 
 function renderScoringTab() {
@@ -1487,10 +1484,11 @@ function flag(team) {
 function renderLeaderboard() {
   const played = countPlayedMatches();
   const time = lastFetchTime ? lastFetchTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '—';
-  document.getElementById('lb-status').textContent = `${played} matches played · updated ${time}`;
+  document.getElementById('lb-status').textContent = `${t('matchesPlayed', played)} · ${t('updated')} ${time}`;
 
   const players = Object.keys(cachedPredictions);
   if (!players.length) {
+    cachedScores = [];
     document.getElementById('lb-container').innerHTML = '<div class="empty-state">No predictions uploaded yet.</div>';
     return;
   }
@@ -1782,7 +1780,7 @@ function updateBracketStatus() {
   const el = document.getElementById('bracket-status');
   if (!el) return;
   const time = lastFetchTime ? lastFetchTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : null;
-  el.textContent = time ? `Last updated ${time}` : '';
+  el.textContent = time ? t('lastUpdated', time) : '';
 }
 
 // ===================== STANDINGS & KO RESOLUTION (from results object) =====================
