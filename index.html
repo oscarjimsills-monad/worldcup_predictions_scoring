@@ -331,7 +331,10 @@ main{padding:20px;max-width:1200px;margin:0 auto}
 <div id="leaderboard-section" class="section active">
   <div class="status-bar">
     <div class="status-info" id="lb-status">Loading…</div>
-    <div id="offline-banner" class="offline-banner">⚠ Offline — showing cached results</div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div id="offline-banner" class="offline-banner">⚠ Offline — showing cached results</div>
+      <button class="btn btn-ghost btn-sm" onclick="loadAllData()">↻ Refresh</button>
+    </div>
   </div>
   <div id="lb-container">
     <div class="empty-state"><div class="spinner"></div> Fetching data…</div>
