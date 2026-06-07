@@ -984,16 +984,18 @@ function renderMyPredictions() {
     return;
   }
 
-  const pred = { ...cachedPredictions[match], _playerName: match };
-  const { total, breakdown, summary } = scorePlayer(pred, cachedResults || {});
-  const s = { name: match, total, breakdown, summary };
+  // Use cached scores from leaderboard render; fall back to fresh score if not yet computed
+  let s = cachedScores.find(x => x.name === match);
+  if (!s) {
+    const pred = { ...cachedPredictions[match], _playerName: match };
+    const { total, breakdown, summary } = scorePlayer(pred, cachedResults || {});
+    s = { name: match, total, breakdown, summary };
+  }
+  const { total } = s;
 
-  // Compute rank
-  const allScores = Object.keys(cachedPredictions).map(name => {
-    const p = { ...cachedPredictions[name], _playerName: name };
-    return { name, total: scorePlayer(p, cachedResults || {}).total };
-  }).sort((a, b) => b.total - a.total);
-  const rankPos = allScores.findIndex(x => x.total === total) + 1;
+  const rankPos = cachedScores.length
+    ? cachedScores.findIndex(x => x.total === total) + 1
+    : 1;
   const medal = rankPos === 1 ? '🥇' : rankPos === 2 ? '🥈' : rankPos === 3 ? '🥉' : `#${rankPos}`;
 
   container.innerHTML = `
@@ -1156,6 +1158,7 @@ async function writeFile(path, content, message) {
 
 let cachedResults = null;
 let cachedPredictions = {}; // {name: obj}
+let cachedScores = []; // [{name, total, breakdown, summary}] — sorted, set by renderLeaderboard
 let lastFetchTime = null;
 let fetchErrors = false;
 
@@ -1489,11 +1492,12 @@ function renderLeaderboard() {
     return;
   }
 
-  const scores = players.map(name => {
+  cachedScores = players.map(name => {
     const pred = { ...cachedPredictions[name], _playerName: name };
     const { total, breakdown, summary } = scorePlayer(pred, cachedResults || {});
     return { name, total, breakdown, summary };
   }).sort((a, b) => b.total - a.total);
+  const scores = cachedScores;
 
   // Assign ranks (tied players share same rank)
   let html = '<table class="lb-table">';
@@ -2864,8 +2868,8 @@ async function init() {
 
   await loadAllData();
 
-  // Auto-refresh every 60s
-  setInterval(loadAllData, 60000);
+  // Auto-refresh every 2 hours
+  setInterval(loadAllData, 7200000);
 }
 
 document.addEventListener('DOMContentLoaded', init);
