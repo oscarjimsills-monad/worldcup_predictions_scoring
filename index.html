@@ -2205,8 +2205,8 @@ function recomputeStandingsIntoResults(results, g) {
 // ===================== ADMIN: UPLOAD PREDICTIONS =====================
 
 function extractPlayerName(filename) {
-  // Handle wc26_First_Last.json → "First Last"
-  const wc26Match = filename.match(/^wc26_(.+)\.json$/i);
+  // Handle wc2026_First_Last.json → "First Last"
+  const wc26Match = filename.match(/^wc2026_(.+)\.json$/i);
   if (wc26Match) {
     return wc26Match[1].replace(/_/g, ' ');
   }
