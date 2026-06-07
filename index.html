@@ -1131,11 +1131,27 @@ function renderMyPredictions() {
     for (const [, j] of jokerEntries) {
       const f = FIXTURES.find(fx => fx.id === j.matchId);
       const matchLabel = f ? `Match ${j.matchId}: ${f.h} vs ${f.a}` : `Match ${j.matchId}`;
-      const played = j.badge !== 'pending' && j.badge !== 'na';
+      let jokerResultBox = '';
+      if (j.badge === 'joker-scored') {
+        jokerResultBox = `<div style="margin:4px 0 8px 12px;padding:7px 12px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--border);display:flex;align-items:center;gap:10px">
+          <span class="pts-badge badge-exact">Red card ✓</span>
+          <span style="font-size:.8rem;font-weight:700;color:var(--primary)">+5 pts</span>
+        </div>`;
+      } else if (j.badge === 'joker-nocard') {
+        jokerResultBox = `<div style="margin:4px 0 8px 12px;padding:7px 12px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--border);display:flex;align-items:center;gap:10px">
+          <span class="pts-badge badge-wrong">No red card</span>
+          <span style="font-size:.8rem;font-weight:700;color:var(--muted)">0 pts</span>
+        </div>`;
+      } else if (j.badge === 'joker-invalid') {
+        jokerResultBox = `<div style="margin:4px 0 8px 12px;padding:7px 12px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--border);display:flex;align-items:center;gap:10px">
+          <span class="pts-badge badge-wrong">Invalid</span>
+          <span style="font-size:.8rem;color:var(--muted)">0 pts</span>
+        </div>`;
+      }
       html += `<div style="padding:8px 0;border-bottom:1px solid rgba(42,63,90,.3)">
         <div style="font-size:.82rem">${matchLabel}</div>
         <div style="font-size:.75rem;color:var(--muted);margin-top:2px">Predicted: ${esc(j.home)} vs ${esc(j.away)}</div>
-        ${played ? resultBox(j) : ''}
+        ${jokerResultBox}
       </div>`;
     }
     html += '</div>';
@@ -1242,7 +1258,7 @@ async function ghPut(path, content, message, sha) {
   const c = getConfig();
   const body = {
     message,
-    content: btoa(String.fromCharCode(...new TextEncoder().encode(content))),
+    content: (() => { const b = new TextEncoder().encode(content); let s = ''; for (let i = 0; i < b.length; i++) s += String.fromCharCode(b[i]); return btoa(s); })(),
   };
   if (sha) body.sha = sha;
   const r = await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}`, {
@@ -1348,6 +1364,7 @@ async function loadAllData() {
     } else {
       fetchErrors = false;
       cachedResults = results || {};
+      cachedPredictions = {};
       const predPromises = fileList.map(f => {
         const rawUrl = `https://raw.githubusercontent.com/${c.owner}/${c.repo}/main/predictions/${f.name}`;
         return fetchPrediction(rawUrl, `predictions/${f.name}`).then(data => {
