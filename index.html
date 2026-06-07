@@ -254,9 +254,35 @@ main{padding:20px;max-width:1200px;margin:0 auto}
 .lang-btn .lang-name{font-size:.85rem}
 .lang-toggle{font-size:.78rem;padding:4px 10px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:inherit;transition:all .15s}
 .lang-toggle:hover{border-color:var(--primary);color:var(--primary)}
+
+/* User modal */
+.user-modal{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:flex;align-items:center;justify-content:center}
+.user-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:32px 28px;text-align:center;max-width:340px;width:90%}
+.user-card h2{font-size:1.2rem;color:var(--primary);margin-bottom:6px}
+.user-card p{font-size:.82rem;color:var(--muted);margin-bottom:20px}
+.user-error{color:var(--red);font-size:.78rem;margin-top:8px;display:none}
+.user-btn-pill{font-size:.78rem;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text);cursor:pointer;font-family:inherit;transition:all .15s;font-weight:500}
+.user-btn-pill:hover{border-color:var(--primary);color:var(--primary)}
+.user-btn-pill.signed-in{border-color:var(--primary);color:var(--primary)}
+
+/* My predictions */
+#my-predictions-container .card{margin-bottom:0}
 </style>
 </head>
 <body>
+
+<!-- USER LOGIN MODAL -->
+<div id="user-modal" class="user-modal" style="display:none">
+  <div class="user-card">
+    <h2>👤 My Predictions</h2>
+    <p>Enter your name as submitted by the organiser.</p>
+    <input class="form-input" id="user-name-input" placeholder="Your name…" autocomplete="name"
+      onkeydown="if(event.key==='Enter')doUserLogin()" style="margin-bottom:10px">
+    <div class="user-error" id="user-modal-error">Name not found — check spelling or ask the organiser.</div>
+    <button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="doUserLogin()">View My Predictions</button>
+    <button class="btn btn-ghost btn-sm" style="margin-top:8px;width:100%" onclick="closeUserModal()">Cancel</button>
+  </div>
+</div>
 
 <!-- LANGUAGE MODAL -->
 <div id="lang-modal" class="lang-modal" style="display:none">
@@ -282,6 +308,7 @@ main{padding:20px;max-width:1200px;margin:0 auto}
     <div id="tournament-stage" class="stage-badge" style="display:none"></div>
     <div id="header-status" class="status-info"></div>
     <button class="lang-toggle" id="lang-toggle-btn" onclick="showLangModal()">🇬🇧 EN</button>
+    <button class="user-btn-pill" id="user-btn" onclick="handleUserBtn()">👤 Sign In</button>
     <button class="btn btn-ghost btn-sm" onclick="showAdminLogin()">🔒 Admin</button>
   </div>
 </header>
@@ -290,6 +317,7 @@ main{padding:20px;max-width:1200px;margin:0 auto}
   <div class="tab active" data-tab="leaderboard" onclick="showTab('leaderboard')" data-i18n="tabLeaderboard">🏆 Leaderboard</div>
   <div class="tab" data-tab="bracket" onclick="showTab('bracket')" data-i18n="tabBracket">📊 Groups & Bracket</div>
   <div class="tab" data-tab="scoring" onclick="showTab('scoring')" data-i18n="tabScoring">📖 How to Score</div>
+  <div class="tab user-only" data-tab="my-predictions" onclick="showTab('my-predictions')" style="display:none" data-i18n="tabMyPredictions">👤 My Predictions</div>
   <div class="tab admin-only" data-tab="admin-results" onclick="showTab('admin-results')" style="display:none">📋 Enter Results</div>
   <div class="tab admin-only" data-tab="admin-upload" onclick="showTab('admin-upload')" style="display:none">⬆ Upload Predictions</div>
   <div class="tab admin-only" data-tab="admin-awards" onclick="showTab('admin-awards')" style="display:none">🏅 Awards</div>
@@ -317,6 +345,11 @@ main{padding:20px;max-width:1200px;margin:0 auto}
     <button class="btn btn-ghost btn-sm" onclick="loadAllData()">↻ Refresh</button>
   </div>
   <div id="bracket-container"><div class="empty-state"><div class="spinner"></div> Loading…</div></div>
+</div>
+
+<!-- MY PREDICTIONS -->
+<div id="my-predictions-section" class="section">
+  <div id="my-predictions-container"><div class="empty-state"><div class="spinner"></div> Loading…</div></div>
 </div>
 
 <!-- HOW TO SCORE -->
@@ -647,6 +680,7 @@ const STRINGS = {
     tabLeaderboard: '🏆 Leaderboard',
     tabBracket: '📊 Groups & Bracket',
     tabScoring: '📖 Scoring System',
+    tabMyPredictions: '👤 My Predictions',
     logoSub: 'Leaderboard',
     langToggle: '🇬🇧 EN',
     // Leaderboard
@@ -721,6 +755,7 @@ const STRINGS = {
     tabLeaderboard: '🏆 Clasificación',
     tabBracket: '📊 Grupos y Eliminatorias',
     tabScoring: '📖 Puntuación',
+    tabMyPredictions: '👤 Mis Predicciones',
     logoSub: 'Clasificación',
     langToggle: '🇪🇸 ES',
     // Leaderboard
@@ -854,6 +889,126 @@ function renderScoringTab() {
     ${cat('cat4Title','cat4rows',null)}
     ${cat('cat5Title','cat5rows','cat5note')}
   </div>`;
+}
+
+// ===================== USER LOGIN =====================
+
+let currentUser = localStorage.getItem('currentUser') || null;
+
+function handleUserBtn() {
+  if (currentUser) {
+    showTab('my-predictions');
+  } else {
+    showUserLogin();
+  }
+}
+
+function showUserLogin() {
+  document.getElementById('user-modal').style.display = 'flex';
+  const input = document.getElementById('user-name-input');
+  input.value = '';
+  document.getElementById('user-modal-error').style.display = 'none';
+  setTimeout(() => input.focus(), 50);
+}
+
+function closeUserModal() {
+  document.getElementById('user-modal').style.display = 'none';
+}
+
+function doUserLogin() {
+  const input = document.getElementById('user-name-input').value.trim();
+  if (!input) return;
+  const errEl = document.getElementById('user-modal-error');
+
+  // Case-insensitive match against loaded predictions
+  const known = Object.keys(cachedPredictions);
+  const match = known.find(n => n.toLowerCase() === input.toLowerCase());
+
+  if (!match && known.length > 0) {
+    errEl.style.display = 'block';
+    return;
+  }
+
+  // Accept name even if data not yet loaded — re-match on render
+  currentUser = match || input;
+  localStorage.setItem('currentUser', currentUser);
+  closeUserModal();
+  updateUserUI();
+  showTab('my-predictions');
+}
+
+function userLogout() {
+  currentUser = null;
+  localStorage.removeItem('currentUser');
+  updateUserUI();
+  showTab('leaderboard');
+}
+
+function updateUserUI() {
+  const btn = document.getElementById('user-btn');
+  const tab = document.querySelector('[data-tab="my-predictions"]');
+  if (currentUser) {
+    btn.textContent = `👤 ${currentUser}`;
+    btn.classList.add('signed-in');
+    if (tab) tab.style.display = '';
+  } else {
+    btn.textContent = '👤 Sign In';
+    btn.classList.remove('signed-in');
+    if (tab) tab.style.display = 'none';
+  }
+}
+
+function renderMyPredictions() {
+  const container = document.getElementById('my-predictions-container');
+  if (!container) return;
+  if (!currentUser) {
+    container.innerHTML = '<div class="empty-state">Sign in to view your predictions.</div>';
+    return;
+  }
+
+  // Re-match case-insensitively in case data loaded after login
+  const match = Object.keys(cachedPredictions).find(n => n.toLowerCase() === currentUser.toLowerCase());
+  // Update stored name to canonical capitalisation
+  if (match && match !== currentUser) {
+    currentUser = match;
+    localStorage.setItem('currentUser', currentUser);
+    updateUserUI();
+  }
+
+  if (!match) {
+    container.innerHTML = `<div class="empty-state" style="padding:40px 20px">
+      <div style="font-size:2rem;margin-bottom:10px">🔍</div>
+      <div style="font-weight:600;margin-bottom:6px">${esc(currentUser)}</div>
+      <div class="text-muted" style="font-size:.85rem">No predictions found for this name.<br>Ask the organiser to upload your prediction file.</div>
+    </div>`;
+    return;
+  }
+
+  const pred = { ...cachedPredictions[match], _playerName: match };
+  const { total, breakdown, summary } = scorePlayer(pred, cachedResults || {});
+  const s = { name: match, total, breakdown, summary };
+
+  // Compute rank
+  const allScores = Object.keys(cachedPredictions).map(name => {
+    const p = { ...cachedPredictions[name], _playerName: name };
+    return { name, total: scorePlayer(p, cachedResults || {}).total };
+  }).sort((a, b) => b.total - a.total);
+  const rankPos = allScores.findIndex(x => x.total === total) + 1;
+  const medal = rankPos === 1 ? '🥇' : rankPos === 2 ? '🥈' : rankPos === 3 ? '🥉' : `#${rankPos}`;
+
+  container.innerHTML = `
+    <div class="card" style="margin-bottom:16px">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+        <div>
+          <div style="font-size:1.15rem;font-weight:700">${esc(match)}</div>
+          <div style="font-size:.82rem;color:var(--muted);margin-top:4px">
+            ${medal} of ${allScores.length} &nbsp;·&nbsp; <span style="color:var(--primary);font-weight:700">${total} pts</span>
+          </div>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="userLogout()">Sign out</button>
+      </div>
+    </div>
+    <div class="card">${renderPlayerDetail(s)}</div>`;
 }
 
 // ===================== ADMIN AUTH =====================
@@ -1081,6 +1236,7 @@ async function loadAllData() {
   updateStageIndicator();
   updateBracketStatus();
   if (isAdmin()) renderFlagsPanel();
+  if (currentUser) renderMyPredictions();
 }
 
 // ===================== SCORING ENGINE =====================
@@ -1204,14 +1360,14 @@ function scorePlayer(pred, results) {
         const isDrawn = rh === ra;
         const penWrong = isDrawn && ci(pko.winner) !== ci(rko.winner);
         if (ph === rh && pa === ra && !penWrong) {
-          pts = 4; badges.push('exact');
+          pts = 7; badges.push('exact');
         } else if (penWrong && ph === rh && pa === ra) {
-          pts = 2; badges.push('pen');
+          pts = 5; badges.push('pen');
         } else if (ci(pko.winner) === ci(rko.winner)) {
-          pts = 2; badges.push('winner');
+          pts = 5; badges.push('winner');
         }
       } else {
-        if (ci(pko.winner) === ci(rko.winner)) { pts = 1; badges.push('partial'); }
+        if (ci(pko.winner) === ci(rko.winner)) { pts = 2; badges.push('partial'); }
       }
     } else {
       // R32, R16, QF, SF
@@ -2643,6 +2799,7 @@ function showTab(tab) {
 
   if (tab === 'bracket') { renderBracketTab(); updateBracketStatus(); }
   if (tab === 'scoring') renderScoringTab();
+  if (tab === 'my-predictions') renderMyPredictions();
   if (tab === 'admin-results') loadAdminResultsUI();
   if (tab === 'admin-upload') renderExistingUploads();
   if (tab === 'admin-awards') loadAwardsUI();
@@ -2681,6 +2838,9 @@ async function init() {
     applyLanguage();
     renderScoringTab();
   }
+
+  // Restore user session
+  updateUserUI();
 
   // Restore admin session
   if (isAdmin()) {
