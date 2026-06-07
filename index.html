@@ -920,17 +920,23 @@ function doUserLogin() {
   if (!input) return;
   const errEl = document.getElementById('user-modal-error');
 
-  // Case-insensitive match against loaded predictions
   const known = Object.keys(cachedPredictions);
-  const match = known.find(n => n.toLowerCase() === input.toLowerCase());
 
-  if (!match && known.length > 0) {
+  // Data not yet loaded — ask user to wait
+  if (known.length === 0) {
+    errEl.textContent = 'Still loading — please wait a moment and try again.';
     errEl.style.display = 'block';
     return;
   }
 
-  // Accept name even if data not yet loaded — re-match on render
-  currentUser = match || input;
+  const match = known.find(n => n.toLowerCase() === input.toLowerCase());
+  if (!match) {
+    errEl.textContent = 'Name not found — check spelling or ask the organiser.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  currentUser = match;
   localStorage.setItem('currentUser', currentUser);
   closeUserModal();
   updateUserUI();
@@ -966,9 +972,7 @@ function renderMyPredictions() {
     return;
   }
 
-  // Re-match case-insensitively in case data loaded after login
   const match = Object.keys(cachedPredictions).find(n => n.toLowerCase() === currentUser.toLowerCase());
-  // Update stored name to canonical capitalisation
   if (match && match !== currentUser) {
     currentUser = match;
     localStorage.setItem('currentUser', currentUser);
@@ -979,38 +983,165 @@ function renderMyPredictions() {
     container.innerHTML = `<div class="empty-state" style="padding:40px 20px">
       <div style="font-size:2rem;margin-bottom:10px">🔍</div>
       <div style="font-weight:600;margin-bottom:6px">${esc(currentUser)}</div>
-      <div class="text-muted" style="font-size:.85rem">No predictions found for this name.<br>Ask the organiser to upload your prediction file.</div>
+      <div style="font-size:.85rem;color:var(--muted)">No predictions found.<br>Ask the organiser to upload your prediction file.</div>
     </div>`;
     return;
   }
 
-  // Use cached scores from leaderboard render; fall back to fresh score if not yet computed
   let s = cachedScores.find(x => x.name === match);
   if (!s) {
     const pred = { ...cachedPredictions[match], _playerName: match };
     const { total, breakdown, summary } = scorePlayer(pred, cachedResults || {});
     s = { name: match, total, breakdown, summary };
   }
-  const { total } = s;
 
-  const rankPos = cachedScores.length
-    ? cachedScores.findIndex(x => x.total === total) + 1
-    : 1;
+  const { total, breakdown } = s;
+  const rankPos = cachedScores.length ? cachedScores.findIndex(x => x.total === total) + 1 : 1;
   const medal = rankPos === 1 ? '🥇' : rankPos === 2 ? '🥈' : rankPos === 3 ? '🥉' : `#${rankPos}`;
+  const pred = cachedPredictions[match];
+  const results = cachedResults || {};
 
-  container.innerHTML = `
-    <div class="card" style="margin-bottom:16px">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
-        <div>
-          <div style="font-size:1.15rem;font-weight:700">${esc(match)}</div>
-          <div style="font-size:.82rem;color:var(--muted);margin-top:4px">
-            ${medal} of ${allScores.length} &nbsp;·&nbsp; <span style="color:var(--primary);font-weight:700">${total} pts</span>
-          </div>
+  const badgeLabel = { exact:'Exact',winner:'Outcome ✓',partial:'Partial',pen:'Pen',elim:'+1 Elim',wrong:'Wrong',na:'—',pending:'Pending',flag:'⚠' };
+
+  function resultBox(b) {
+    if (!b || b.badge === 'pending' || b.badge === 'na') return '';
+    const pts = b.pts > 0 ? `+${b.pts} pt${b.pts > 1 ? 's' : ''}` : '0 pts';
+    return `<div style="margin:4px 0 8px 12px;padding:7px 12px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <span class="pts-badge badge-${b.badge}">${badgeLabel[b.badge]||b.badge}</span>
+      <span style="font-size:.8rem;font-weight:700;color:var(--primary)">${pts}</span>
+    </div>`;
+  }
+
+  function predMatchRow(teams, predScore, realScore, b, played) {
+    const predPart = `<span style="font-size:.82rem">${teams}</span>
+      <span style="font-family:monospace;font-size:.85rem;color:var(--text);margin-left:auto">${predScore}</span>`;
+    const realPart = played
+      ? `<div style="font-size:.75rem;color:var(--muted);margin-left:12px">Result: <span style="color:var(--green);font-weight:600">${realScore}</span></div>`
+      : '';
+    return `<div style="padding:8px 0;border-bottom:1px solid rgba(42,63,90,.3)">
+      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">${predPart}</div>
+      ${realPart}
+      ${played ? resultBox(b) : ''}
+    </div>`;
+  }
+
+  let html = '';
+
+  // ── Header ──
+  html += `<div class="card" style="margin-bottom:14px">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div>
+        <div style="font-size:1.15rem;font-weight:700">${esc(match)}</div>
+        <div style="font-size:.82rem;color:var(--muted);margin-top:4px">
+          ${medal} of ${cachedScores.length} &nbsp;·&nbsp; <span style="color:var(--primary);font-weight:700">${total} pts</span>
         </div>
-        <button class="btn btn-ghost btn-sm" onclick="userLogout()">Sign out</button>
       </div>
+      <button class="btn btn-ghost btn-sm" onclick="userLogout()">Sign out</button>
     </div>
-    <div class="card">${renderPlayerDetail(s)}</div>`;
+  </div>`;
+
+  // ── Group Stage ──
+  html += `<div class="card" style="margin-bottom:14px"><h3>Group Stage</h3>`;
+  for (const g of Object.keys(GROUPS)) {
+    html += `<div style="font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin:12px 0 4px">Group ${g}</div>`;
+    const gFixtures = FIXTURES.filter(f => f.g === g);
+    for (const f of gFixtures) {
+      const b = breakdown[f.id];
+      const psc = pred.groupScores?.[f.id] ?? pred.groupScores?.[String(f.id)];
+      const rsc = results.groupScores?.[f.id] ?? results.groupScores?.[String(f.id)];
+      const predScore = psc ? `${psc.h}–${psc.a}` : '—';
+      const realScore = rsc ? `${rsc.h}–${rsc.a}` : null;
+      const played = realScore != null;
+      html += predMatchRow(`${flag(f.h)}${f.h} vs ${flag(f.a)}${f.a}`, predScore, realScore, b, played);
+    }
+
+    // Group standings prediction
+    const predStand = pred.standings?.[g];
+    const realStand = results.standings?.[g];
+    const sb = breakdown[`standings_${g}`];
+    const complete = groupMatchesComplete(results, g);
+    if (predStand) {
+      const predOrder = predStand.map((r,i) => `${i+1}. ${r?.team||'?'}`).join(' · ');
+      const realOrder = complete && realStand ? realStand.map((r,i) => `${i+1}. ${r?.team||'?'}`).join(' · ') : null;
+      html += `<div style="padding:8px 0;border-bottom:1px solid rgba(42,63,90,.3)">
+        <div style="font-size:.72rem;color:var(--muted);margin-bottom:2px">Predicted standings</div>
+        <div style="font-size:.8rem">${esc(predOrder)}</div>
+        ${realOrder ? `<div style="font-size:.72rem;color:var(--muted);margin-top:4px">Actual: <span style="color:var(--text)">${esc(realOrder)}</span></div>` : ''}
+        ${complete ? resultBox(sb) : ''}
+      </div>`;
+    }
+  }
+  html += '</div>';
+
+  // ── Knockout Rounds ──
+  const koRounds = ['R32','R16','QF','SF','3rd Place','Final'];
+  const koLabels = { R32:'Round of 32', R16:'Round of 16', QF:'Quarter-Finals', SF:'Semi-Finals', 'Final':'Final', '3rd Place':'3rd Place Match' };
+  for (const lbl of koRounds) {
+    const entries = KO_DEFS.filter(kd => { const b = breakdown[kd.id]; return b && b.label === lbl; });
+    if (!entries.length) continue;
+    html += `<div class="card" style="margin-bottom:14px"><h3>${koLabels[lbl]||lbl}</h3>`;
+    for (const kd of entries) {
+      const b = breakdown[kd.id];
+      const pko = pred.knockoutResults?.[kd.id] ?? pred.knockoutResults?.[String(kd.id)];
+      const rko = results.knockoutResults?.[kd.id] ?? results.knockoutResults?.[String(kd.id)];
+      const confirmedTeams = resolveKOTeamsConfirmed(results);
+      const predHome = pko?.home || '?';
+      const predAway = pko?.away || '?';
+      const predScore = pko ? `${pko.homeScore}–${pko.awayScore}` : '—';
+      const realHome = rko?.home || confirmedTeams[kd.id]?.home || null;
+      const realAway = rko?.away || confirmedTeams[kd.id]?.away || null;
+      const realScore = rko && rko.homeScore != null ? `${rko.homeScore}–${rko.awayScore}` : null;
+      const played = realScore != null;
+      const teamsKnown = !!(realHome && realAway);
+
+      html += `<div style="padding:8px 0;border-bottom:1px solid rgba(42,63,90,.3)">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px">
+          <span style="font-size:.82rem">${flag(predHome)}${esc(predHome)} vs ${flag(predAway)}${esc(predAway)}</span>
+          <span style="font-family:monospace;font-size:.85rem;color:var(--text)">${predScore}</span>
+        </div>
+        ${teamsKnown ? `<div style="font-size:.75rem;color:var(--muted);margin-top:4px">
+          Actual: <span style="font-weight:600;color:${played ? 'var(--green)' : 'var(--text)'}">${flag(realHome)}${esc(realHome)} vs ${flag(realAway)}${esc(realAway)}${played ? ` &nbsp; ${realScore}` : ''}</span>
+        </div>` : ''}
+        ${played ? resultBox(b) : ''}
+      </div>`;
+    }
+    html += '</div>';
+  }
+
+  // ── Awards ──
+  html += `<div class="card" style="margin-bottom:14px"><h3>Tournament Awards</h3>`;
+  const awardKeys = ['topScorer','bestPlayer','bestGoalkeeper','champion','thirdPlaceWinner'];
+  for (const k of awardKeys) {
+    const b = breakdown[`award_${k}`];
+    if (!b) continue;
+    const played = b.badge !== 'pending' && b.badge !== 'na';
+    html += `<div style="padding:8px 0;border-bottom:1px solid rgba(42,63,90,.3)">
+      <div style="font-size:.72rem;color:var(--muted);margin-bottom:2px">${b.label}</div>
+      <div style="font-size:.82rem">${b.predicted || '<i style="color:var(--muted)">not submitted</i>'}</div>
+      ${b.real ? `<div style="font-size:.72rem;color:var(--muted);margin-top:3px">Actual: <span style="color:var(--text)">${esc(b.real)}</span></div>` : ''}
+      ${played ? resultBox(b) : ''}
+    </div>`;
+  }
+  html += '</div>';
+
+  // ── Jokers ──
+  const jokerEntries = Object.entries(breakdown).filter(([k]) => k.startsWith('joker_'));
+  if (jokerEntries.length) {
+    html += `<div class="card" style="margin-bottom:14px"><h3>Red Card Jokers</h3>`;
+    for (const [, j] of jokerEntries) {
+      const f = FIXTURES.find(fx => fx.id === j.matchId);
+      const matchLabel = f ? `Match ${j.matchId}: ${f.h} vs ${f.a}` : `Match ${j.matchId}`;
+      const played = j.badge !== 'pending' && j.badge !== 'na';
+      html += `<div style="padding:8px 0;border-bottom:1px solid rgba(42,63,90,.3)">
+        <div style="font-size:.82rem">${matchLabel}</div>
+        <div style="font-size:.75rem;color:var(--muted);margin-top:2px">Predicted: ${esc(j.home)} vs ${esc(j.away)}</div>
+        ${played ? resultBox(j) : ''}
+      </div>`;
+    }
+    html += '</div>';
+  }
+
+  container.innerHTML = html;
 }
 
 // ===================== ADMIN AUTH =====================
