@@ -343,6 +343,21 @@ main{padding:20px;max-width:1200px;margin:0 auto}
     <button class="btn btn-primary" onclick="uploadAllPredictions()" style="margin-top:10px">⬆ Upload All to GitHub</button>
   </div>
   <div class="card">
+    <h3>Paste Prediction Text</h3>
+    <p class="text-muted" style="margin-bottom:14px">Paste an exported prediction (YAML or JSON) directly — no file needed.</p>
+    <div class="form-field">
+      <label>Player Name</label>
+      <input class="form-input" id="paste-player-name" placeholder="e.g. Oscar Sills">
+    </div>
+    <div class="form-field">
+      <label>Prediction Text</label>
+      <textarea class="form-input" id="paste-prediction-text" rows="8" placeholder="Paste YAML or JSON here…" style="font-family:monospace;font-size:.75rem;resize:vertical"></textarea>
+    </div>
+    <button class="btn btn-primary" onclick="savePastedPrediction()">⬆ Save Prediction</button>
+    <span id="paste-save-ok" class="save-ok" style="display:none">✓ Saved</span>
+    <span id="paste-save-err" style="display:none;color:var(--red);font-size:.78rem;margin-left:8px"></span>
+  </div>
+  <div class="card">
     <h3>Uploaded Predictions</h3>
     <p class="text-muted" style="margin-bottom:14px">All prediction files currently stored in GitHub.</p>
     <div id="existing-uploads-list"><div class="empty-state text-muted">Loading…</div></div>
@@ -2055,6 +2070,125 @@ function onPredictionFilesSelected() {
       <input class="upload-name-input" id="upload-name-${i}" value="${esc(name)}" placeholder="Player name">
       <span class="upload-status" id="upload-status-${i}"></span>
     </div>`;
+  }
+}
+
+function parseYAMLText(text) {
+  const tokens = [];
+  for (const raw of text.split('\n')) {
+    if (!raw.trim() || raw.trim().startsWith('#')) continue;
+    tokens.push({ indent: raw.match(/^( *)/)[1].length, content: raw.trim() });
+  }
+  let pos = 0;
+
+  function scalar(v) {
+    v = (v || '').trim();
+    if (!v || v === 'null' || v === '~') return null;
+    if (v === 'true') return true;
+    if (v === 'false') return false;
+    if (/^"(.*)"$/.test(v)) return v.slice(1, -1);
+    if (/^'(.*)'$/.test(v)) return v.slice(1, -1);
+    if (/^-?\d+$/.test(v)) return +v;
+    if (/^-?\d*\.\d+$/.test(v)) return +v;
+    return v;
+  }
+
+  function peek() { return tokens[pos]; }
+
+  function parseNode(minIndent) {
+    const t = peek();
+    if (!t || t.indent < minIndent) return null;
+    return (t.content.startsWith('- ') || t.content === '-') ? parseSeq(t.indent) : parseMap(t.indent);
+  }
+
+  function parseMap(baseIndent) {
+    const obj = {};
+    while (pos < tokens.length) {
+      const t = peek();
+      if (!t || t.indent !== baseIndent || t.content.startsWith('-')) break;
+      const ci = t.content.indexOf(':');
+      if (ci === -1) { pos++; continue; }
+      pos++;
+      const k = t.content.slice(0, ci).trim().replace(/^["']|["']$/g, '');
+      const v = t.content.slice(ci + 1).trim();
+      if (v) {
+        obj[k] = scalar(v);
+      } else {
+        const nx = peek();
+        obj[k] = (nx && nx.indent > baseIndent) ? parseNode(nx.indent) : null;
+      }
+    }
+    return obj;
+  }
+
+  function parseSeq(baseIndent) {
+    const arr = [];
+    while (pos < tokens.length) {
+      const t = peek();
+      if (!t || t.indent !== baseIndent || !t.content.startsWith('-')) break;
+      pos++;
+      const rest = t.content.slice(1).trim();
+      if (!rest) {
+        const nx = peek();
+        arr.push(nx && nx.indent > baseIndent ? parseNode(nx.indent) : null);
+      } else if (/^[\w"'][^:]*:/.test(rest)) {
+        // Inline first key: "- key: val", rest of object on subsequent indented lines
+        const obj = {};
+        const ci = rest.indexOf(':');
+        const k = rest.slice(0, ci).trim().replace(/^["']|["']$/g, '');
+        const v = rest.slice(ci + 1).trim();
+        obj[k] = v ? scalar(v) : (() => { const nx = peek(); return nx && nx.indent > t.indent ? parseNode(nx.indent) : null; })();
+        while (pos < tokens.length) {
+          const nx = peek();
+          if (!nx || nx.indent <= t.indent || nx.content.startsWith('-')) break;
+          const ci2 = nx.content.indexOf(':');
+          if (ci2 === -1) break;
+          pos++;
+          const k2 = nx.content.slice(0, ci2).trim().replace(/^["']|["']$/g, '');
+          const v2 = nx.content.slice(ci2 + 1).trim();
+          obj[k2] = v2 ? scalar(v2) : (() => { const nx2 = peek(); return nx2 && nx2.indent > nx.indent ? parseNode(nx2.indent) : null; })();
+        }
+        arr.push(obj);
+      } else {
+        arr.push(scalar(rest));
+      }
+    }
+    return arr;
+  }
+
+  return parseMap(0);
+}
+
+async function savePastedPrediction() {
+  const name = document.getElementById('paste-player-name').value.trim();
+  const text = document.getElementById('paste-prediction-text').value.trim();
+  const okEl = document.getElementById('paste-save-ok');
+  const errEl = document.getElementById('paste-save-err');
+  okEl.style.display = 'none';
+  errEl.style.display = 'none';
+
+  if (!name) { errEl.textContent = 'Enter a player name.'; errEl.style.display = 'inline'; return; }
+  if (!text) { errEl.textContent = 'Paste prediction text first.'; errEl.style.display = 'inline'; return; }
+
+  let parsed;
+  try { parsed = JSON.parse(text); } catch(e) {
+    try { parsed = parseYAMLText(text); } catch(e2) { parsed = null; }
+  }
+  if (!parsed || typeof parsed !== 'object') {
+    errEl.textContent = 'Could not parse — check the format.'; errEl.style.display = 'inline'; return;
+  }
+
+  const json = JSON.stringify(parsed, null, 2);
+  const ok = await writeFile(`predictions/${name}.json`, json, `Upload prediction: ${name}`);
+  if (ok) {
+    okEl.style.display = 'inline';
+    cachedPredictions[name] = parsed;
+    document.getElementById('paste-player-name').value = '';
+    document.getElementById('paste-prediction-text').value = '';
+    renderLeaderboard();
+    renderExistingUploads();
+  } else {
+    errEl.textContent = 'Failed to save — check token.'; errEl.style.display = 'inline';
   }
 }
 
