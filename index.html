@@ -152,6 +152,9 @@ main{padding:20px;max-width:1200px;margin:0 auto}
 .existing-upload-row{display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--surface2);border-radius:6px;margin-bottom:6px}
 .existing-upload-name{flex:1;font-size:.85rem;font-weight:600}
 .existing-upload-status{font-size:.72rem;color:var(--muted)}
+.paid-btn{width:32px;height:32px;border-radius:6px;border:2px solid var(--border);background:transparent;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;color:var(--muted)}
+.paid-btn:hover{border-color:var(--green);color:var(--green)}
+.paid-btn.paid{background:rgba(76,175,128,.15);border-color:var(--green);color:var(--green)}
 
 /* Flags panel */
 .flag-item{display:flex;align-items:flex-start;gap:12px;padding:12px;background:var(--surface2);border-radius:7px;margin-bottom:8px}
@@ -2539,6 +2542,22 @@ async function uploadAllPredictions() {
   renderExistingUploads();
 }
 
+function getPaidStatus() {
+  try { return JSON.parse(localStorage.getItem('paidPlayers') || '{}'); } catch(e) { return {}; }
+}
+
+function togglePaid(name) {
+  const paid = getPaidStatus();
+  if (paid[name]) delete paid[name]; else paid[name] = true;
+  localStorage.setItem('paidPlayers', JSON.stringify(paid));
+  const btn = document.getElementById(`paid-btn-${esc(name)}`);
+  if (btn) {
+    const isPaid = !!paid[name];
+    btn.classList.toggle('paid', isPaid);
+    btn.title = isPaid ? 'Mark unpaid' : 'Mark paid';
+  }
+}
+
 async function renderExistingUploads() {
   const container = document.getElementById('existing-uploads-list');
   if (!container) return;
@@ -2547,12 +2566,19 @@ async function renderExistingUploads() {
     container.innerHTML = '<div class="empty-state text-muted">No predictions uploaded yet.</div>';
     return;
   }
-  container.innerHTML = players.map(name => `
-    <div class="existing-upload-row" id="upload-row-${esc(name)}">
-      <span class="existing-upload-name">${esc(name)}</span>
-      <span class="existing-upload-status" id="del-status-${esc(name)}"></span>
-      <button class="btn btn-danger btn-sm" onclick="deletePrediction('${escAttr(name)}')">🗑 Delete</button>
-    </div>`).join('');
+  const paid = getPaidStatus();
+  const paidCount = players.filter(n => paid[n]).length;
+  container.innerHTML = `
+    <div style="font-size:.75rem;color:var(--muted);margin-bottom:10px">${paidCount} / ${players.length} paid</div>
+    ${players.map(name => {
+      const isPaid = !!paid[name];
+      return `<div class="existing-upload-row" id="upload-row-${esc(name)}">
+        <button class="paid-btn${isPaid ? ' paid' : ''}" id="paid-btn-${esc(name)}" onclick="togglePaid('${escAttr(name)}')" title="${isPaid ? 'Mark unpaid' : 'Mark paid'}">✓</button>
+        <span class="existing-upload-name" style="${isPaid ? 'color:var(--green)' : ''}">${esc(name)}</span>
+        <span class="existing-upload-status" id="del-status-${esc(name)}"></span>
+        <button class="btn btn-danger btn-sm" onclick="deletePrediction('${escAttr(name)}')">🗑 Delete</button>
+      </div>`;
+    }).join('')}`;
 }
 
 async function deletePrediction(name) {
