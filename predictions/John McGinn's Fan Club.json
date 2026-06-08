@@ -1,0 +1,1437 @@
+{
+  "bestGoalkeeper": "David raya",
+  "bestPlayer": "Kaoru Mitoma",
+  "champion": "Spain",
+  "eliminationPredictions": [
+    {
+      "round": "R16",
+      "team": "South Korea"
+    },
+    {
+      "round": "R32",
+      "team": "Bosnia & Herzegovina"
+    },
+    {
+      "round": "R32",
+      "team": "Germany"
+    },
+    {
+      "round": "R16",
+      "team": "Scotland"
+    },
+    {
+      "round": "SF",
+      "team": "Japan"
+    },
+    {
+      "round": "R32",
+      "team": "Morocco"
+    },
+    {
+      "round": "QF",
+      "team": "Brazil"
+    },
+    {
+      "round": "R32",
+      "team": "Netherlands"
+    },
+    {
+      "round": "QF",
+      "team": "France"
+    },
+    {
+      "round": "R32",
+      "team": "Sweden"
+    },
+    {
+      "round": "R32",
+      "team": "Ivory Coast"
+    },
+    {
+      "round": "R16",
+      "team": "Senegal"
+    },
+    {
+      "round": "R16",
+      "team": "Mexico"
+    },
+    {
+      "round": "R32",
+      "team": "Ecuador"
+    },
+    {
+      "round": "SF",
+      "team": "Croatia"
+    },
+    {
+      "round": "R32",
+      "team": "Norway"
+    },
+    {
+      "round": "QF",
+      "team": "Turkey"
+    },
+    {
+      "round": "R32",
+      "team": "Algeria"
+    },
+    {
+      "round": "R16",
+      "team": "Belgium"
+    },
+    {
+      "round": "R32",
+      "team": "Czechia"
+    },
+    {
+      "round": "R32",
+      "team": "Portugal"
+    },
+    {
+      "round": "R16",
+      "team": "England"
+    },
+    {
+      "round": "R32",
+      "team": "Austria"
+    },
+    {
+      "round": "QF",
+      "team": "Switzerland"
+    },
+    {
+      "round": "R32",
+      "team": "New Zealand"
+    },
+    {
+      "round": "R32",
+      "team": "Uruguay"
+    },
+    {
+      "round": "R16",
+      "team": "Colombia"
+    },
+    {
+      "round": "R32",
+      "team": "Ghana"
+    },
+    {
+      "round": "R32",
+      "team": "Paraguay"
+    },
+    {
+      "round": "R16",
+      "team": "Egypt"
+    }
+  ],
+  "exported": "2026-06-08T22:10:49.256Z",
+  "groupScores": {
+    "1": {
+      "a": 1,
+      "h": 3
+    },
+    "2": {
+      "a": 1,
+      "h": 2
+    },
+    "3": {
+      "a": 0,
+      "h": 1
+    },
+    "4": {
+      "a": 1,
+      "h": 1
+    },
+    "5": {
+      "a": 2,
+      "h": 0
+    },
+    "6": {
+      "a": 2,
+      "h": 1
+    },
+    "7": {
+      "a": 2,
+      "h": 0
+    },
+    "8": {
+      "a": 1,
+      "h": 0
+    },
+    "9": {
+      "a": 1,
+      "h": 2
+    },
+    "10": {
+      "a": 1,
+      "h": 1
+    },
+    "11": {
+      "a": 0,
+      "h": 3
+    },
+    "12": {
+      "a": 0,
+      "h": 2
+    },
+    "13": {
+      "a": 1,
+      "h": 2
+    },
+    "14": {
+      "a": 2,
+      "h": 1
+    },
+    "15": {
+      "a": 3,
+      "h": 0
+    },
+    "16": {
+      "a": 0,
+      "h": 4
+    },
+    "17": {
+      "a": 0,
+      "h": 2
+    },
+    "18": {
+      "a": 1,
+      "h": 1
+    },
+    "19": {
+      "a": 1,
+      "h": 1
+    },
+    "20": {
+      "a": 2,
+      "h": 1
+    },
+    "21": {
+      "a": 2,
+      "h": 2
+    },
+    "22": {
+      "a": 1,
+      "h": 3
+    },
+    "23": {
+      "a": 1,
+      "h": 4
+    },
+    "24": {
+      "a": 0,
+      "h": 2
+    },
+    "25": {
+      "a": 0,
+      "h": 3
+    },
+    "26": {
+      "a": 1,
+      "h": 2
+    },
+    "27": {
+      "a": 2,
+      "h": 2
+    },
+    "28": {
+      "a": 0,
+      "h": 1
+    },
+    "29": {
+      "a": 1,
+      "h": 0
+    },
+    "30": {
+      "a": 3,
+      "h": 1
+    },
+    "31": {
+      "a": 3,
+      "h": 2
+    },
+    "32": {
+      "a": 0,
+      "h": 1
+    },
+    "33": {
+      "a": 1,
+      "h": 1
+    },
+    "34": {
+      "a": 2,
+      "h": 0
+    },
+    "35": {
+      "a": 2,
+      "h": 1
+    },
+    "36": {
+      "a": 1,
+      "h": 2
+    },
+    "37": {
+      "a": 1,
+      "h": 1
+    },
+    "38": {
+      "a": 1,
+      "h": 0
+    },
+    "39": {
+      "a": 0,
+      "h": 2
+    },
+    "40": {
+      "a": 3,
+      "h": 0
+    },
+    "41": {
+      "a": 2,
+      "h": 0
+    },
+    "42": {
+      "a": 1,
+      "h": 1
+    },
+    "43": {
+      "a": 0,
+      "h": 2
+    },
+    "44": {
+      "a": 2,
+      "h": 0
+    },
+    "45": {
+      "a": 0,
+      "h": 3
+    },
+    "46": {
+      "a": 1,
+      "h": 2
+    },
+    "47": {
+      "a": 1,
+      "h": 1
+    },
+    "48": {
+      "a": 3,
+      "h": 1
+    },
+    "49": {
+      "a": 2,
+      "h": 2
+    },
+    "50": {
+      "a": 1,
+      "h": 0
+    },
+    "51": {
+      "a": 0,
+      "h": 3
+    },
+    "52": {
+      "a": 2,
+      "h": 1
+    },
+    "53": {
+      "a": 3,
+      "h": 1
+    },
+    "54": {
+      "a": 0,
+      "h": 2
+    },
+    "55": {
+      "a": 1,
+      "h": 0
+    },
+    "56": {
+      "a": 0,
+      "h": 1
+    },
+    "57": {
+      "a": 0,
+      "h": 2
+    },
+    "58": {
+      "a": 1,
+      "h": 1
+    },
+    "59": {
+      "a": 1,
+      "h": 0
+    },
+    "60": {
+      "a": 2,
+      "h": 0
+    },
+    "61": {
+      "a": 0,
+      "h": 1
+    },
+    "62": {
+      "a": 1,
+      "h": 1
+    },
+    "63": {
+      "a": 0,
+      "h": 2
+    },
+    "64": {
+      "a": 0,
+      "h": 1
+    },
+    "65": {
+      "a": 2,
+      "h": 3
+    },
+    "66": {
+      "a": 1,
+      "h": 1
+    },
+    "67": {
+      "a": 2,
+      "h": 0
+    },
+    "68": {
+      "a": 1,
+      "h": 2
+    },
+    "69": {
+      "a": 1,
+      "h": 2
+    },
+    "70": {
+      "a": 2,
+      "h": 0
+    },
+    "71": {
+      "a": 1,
+      "h": 0
+    },
+    "72": {
+      "a": 1,
+      "h": 2
+    }
+  },
+  "knockoutResults": {
+    "73": {
+      "away": "Bosnia & Herzegovina",
+      "awayScore": 1,
+      "home": "South Korea",
+      "homeScore": 2,
+      "label": "R32",
+      "loser": "Bosnia & Herzegovina",
+      "winner": "South Korea"
+    },
+    "74": {
+      "away": "Scotland",
+      "awayScore": 1,
+      "home": "Germany",
+      "homeScore": 0,
+      "label": "R32",
+      "loser": "Germany",
+      "winner": "Scotland"
+    },
+    "75": {
+      "away": "Morocco",
+      "awayScore": 2,
+      "home": "Japan",
+      "homeScore": 3,
+      "label": "R32",
+      "loser": "Morocco",
+      "winner": "Japan"
+    },
+    "76": {
+      "away": "Netherlands",
+      "awayScore": 2,
+      "home": "Brazil",
+      "homeScore": 2,
+      "label": "R32",
+      "loser": "Netherlands",
+      "winner": "Brazil"
+    },
+    "77": {
+      "away": "Sweden",
+      "awayScore": 1,
+      "home": "France",
+      "homeScore": 2,
+      "label": "R32",
+      "loser": "Sweden",
+      "winner": "France"
+    },
+    "78": {
+      "away": "Senegal",
+      "awayScore": 3,
+      "home": "Ivory Coast",
+      "homeScore": 1,
+      "label": "R32",
+      "loser": "Ivory Coast",
+      "winner": "Senegal"
+    },
+    "79": {
+      "away": "Ecuador",
+      "awayScore": 1,
+      "home": "Mexico",
+      "homeScore": 2,
+      "label": "R32",
+      "loser": "Ecuador",
+      "winner": "Mexico"
+    },
+    "80": {
+      "away": "Norway",
+      "awayScore": 0,
+      "home": "Croatia",
+      "homeScore": 2,
+      "label": "R32",
+      "loser": "Norway",
+      "winner": "Croatia"
+    },
+    "81": {
+      "away": "Algeria",
+      "awayScore": 1,
+      "home": "Turkey",
+      "homeScore": 2,
+      "label": "R32",
+      "loser": "Algeria",
+      "winner": "Turkey"
+    },
+    "82": {
+      "away": "Czechia",
+      "awayScore": 1,
+      "home": "Belgium",
+      "homeScore": 2,
+      "label": "R32",
+      "loser": "Czechia",
+      "winner": "Belgium"
+    },
+    "83": {
+      "away": "England",
+      "awayScore": 2,
+      "home": "Portugal",
+      "homeScore": 2,
+      "label": "R32",
+      "loser": "Portugal",
+      "winner": "England"
+    },
+    "84": {
+      "away": "Austria",
+      "awayScore": 0,
+      "home": "Spain",
+      "homeScore": 2,
+      "label": "R32",
+      "loser": "Austria",
+      "winner": "Spain"
+    },
+    "85": {
+      "away": "New Zealand",
+      "awayScore": 0,
+      "home": "Switzerland",
+      "homeScore": 4,
+      "label": "R32",
+      "loser": "New Zealand",
+      "winner": "Switzerland"
+    },
+    "86": {
+      "away": "Uruguay",
+      "awayScore": 1,
+      "home": "Argentina",
+      "homeScore": 2,
+      "label": "R32",
+      "loser": "Uruguay",
+      "winner": "Argentina"
+    },
+    "87": {
+      "away": "Ghana",
+      "awayScore": 1,
+      "home": "Colombia",
+      "homeScore": 3,
+      "label": "R32",
+      "loser": "Ghana",
+      "winner": "Colombia"
+    },
+    "88": {
+      "away": "Egypt",
+      "awayScore": 2,
+      "home": "Paraguay",
+      "homeScore": 1,
+      "label": "R32",
+      "loser": "Paraguay",
+      "winner": "Egypt"
+    },
+    "89": {
+      "away": "France",
+      "awayScore": 3,
+      "home": "Scotland",
+      "homeScore": 0,
+      "label": "R16",
+      "loser": "Scotland",
+      "winner": "France"
+    },
+    "90": {
+      "away": "Japan",
+      "awayScore": 2,
+      "home": "South Korea",
+      "homeScore": 2,
+      "label": "R16",
+      "loser": "South Korea",
+      "winner": "Japan"
+    },
+    "91": {
+      "away": "Senegal",
+      "awayScore": 2,
+      "home": "Brazil",
+      "homeScore": 3,
+      "label": "R16",
+      "loser": "Senegal",
+      "winner": "Brazil"
+    },
+    "92": {
+      "away": "Croatia",
+      "awayScore": 3,
+      "home": "Mexico",
+      "homeScore": 3,
+      "label": "R16",
+      "loser": "Mexico",
+      "winner": "Croatia"
+    },
+    "93": {
+      "away": "Spain",
+      "awayScore": 3,
+      "home": "England",
+      "homeScore": 1,
+      "label": "R16",
+      "loser": "England",
+      "winner": "Spain"
+    },
+    "94": {
+      "away": "Belgium",
+      "awayScore": 1,
+      "home": "Turkey",
+      "homeScore": 2,
+      "label": "R16",
+      "loser": "Belgium",
+      "winner": "Turkey"
+    },
+    "95": {
+      "away": "Egypt",
+      "awayScore": 1,
+      "home": "Argentina",
+      "homeScore": 2,
+      "label": "R16",
+      "loser": "Egypt",
+      "winner": "Argentina"
+    },
+    "96": {
+      "away": "Colombia",
+      "awayScore": 1,
+      "home": "Switzerland",
+      "homeScore": 1,
+      "label": "R16",
+      "loser": "Colombia",
+      "winner": "Switzerland"
+    },
+    "97": {
+      "away": "Japan",
+      "awayScore": 2,
+      "home": "France",
+      "homeScore": 1,
+      "label": "QF",
+      "loser": "France",
+      "winner": "Japan"
+    },
+    "98": {
+      "away": "Turkey",
+      "awayScore": 1,
+      "home": "Spain",
+      "homeScore": 2,
+      "label": "QF",
+      "loser": "Turkey",
+      "winner": "Spain"
+    },
+    "99": {
+      "away": "Croatia",
+      "awayScore": 2,
+      "home": "Brazil",
+      "homeScore": 2,
+      "label": "QF",
+      "loser": "Brazil",
+      "winner": "Croatia"
+    },
+    "100": {
+      "away": "Switzerland",
+      "awayScore": 1,
+      "home": "Argentina",
+      "homeScore": 3,
+      "label": "QF",
+      "loser": "Switzerland",
+      "winner": "Argentina"
+    },
+    "101": {
+      "away": "Spain",
+      "awayScore": 3,
+      "home": "Japan",
+      "homeScore": 0,
+      "label": "SF",
+      "loser": "Japan",
+      "winner": "Spain"
+    },
+    "102": {
+      "away": "Argentina",
+      "awayScore": 2,
+      "home": "Croatia",
+      "homeScore": 1,
+      "label": "SF",
+      "loser": "Croatia",
+      "winner": "Argentina"
+    },
+    "103": {
+      "away": "Croatia",
+      "awayScore": 3,
+      "home": "Japan",
+      "homeScore": 1,
+      "label": "3rd Place",
+      "loser": "Japan",
+      "winner": "Croatia"
+    },
+    "104": {
+      "away": "Argentina",
+      "awayScore": 1,
+      "home": "Spain",
+      "homeScore": 2,
+      "label": "Final",
+      "loser": "Argentina",
+      "winner": "Spain"
+    }
+  },
+  "redCardJokers": [
+    {
+      "away": "South Africa",
+      "home": "Mexico",
+      "matchId": 1
+    },
+    {
+      "away": "Bosnia & Herzegovina",
+      "home": "Canada",
+      "matchId": 7
+    },
+    {
+      "away": "Croatia",
+      "home": "England",
+      "matchId": 67
+    },
+    {
+      "away": "Senegal",
+      "home": "France",
+      "matchId": 49
+    },
+    {
+      "away": "Argentina",
+      "home": "Spain",
+      "matchId": 104
+    }
+  ],
+  "standings": {
+    "A": [
+      {
+        "d": 1,
+        "ga": 3,
+        "gd": 3,
+        "gf": 6,
+        "gp": 3,
+        "l": 0,
+        "pts": 7,
+        "team": "Mexico",
+        "w": 2
+      },
+      {
+        "d": 1,
+        "ga": 2,
+        "gd": 3,
+        "gf": 5,
+        "gp": 3,
+        "l": 0,
+        "pts": 7,
+        "team": "South Korea",
+        "w": 2
+      },
+      {
+        "d": 0,
+        "ga": 4,
+        "gd": -1,
+        "gf": 3,
+        "gp": 3,
+        "l": 2,
+        "pts": 3,
+        "team": "Czechia",
+        "w": 1
+      },
+      {
+        "d": 0,
+        "ga": 6,
+        "gd": -5,
+        "gf": 1,
+        "gp": 3,
+        "l": 3,
+        "pts": 0,
+        "team": "South Africa",
+        "w": 0
+      }
+    ],
+    "B": [
+      {
+        "d": 0,
+        "ga": 1,
+        "gd": 5,
+        "gf": 6,
+        "gp": 3,
+        "l": 0,
+        "pts": 9,
+        "team": "Switzerland",
+        "w": 3
+      },
+      {
+        "d": 0,
+        "ga": 2,
+        "gd": 3,
+        "gf": 5,
+        "gp": 3,
+        "l": 1,
+        "pts": 6,
+        "team": "Bosnia & Herzegovina",
+        "w": 2
+      },
+      {
+        "d": 1,
+        "ga": 4,
+        "gd": -3,
+        "gf": 1,
+        "gp": 3,
+        "l": 2,
+        "pts": 1,
+        "team": "Qatar",
+        "w": 0
+      },
+      {
+        "d": 1,
+        "ga": 6,
+        "gd": -5,
+        "gf": 1,
+        "gp": 3,
+        "l": 2,
+        "pts": 1,
+        "team": "Canada",
+        "w": 0
+      }
+    ],
+    "C": [
+      {
+        "d": 1,
+        "ga": 2,
+        "gd": 5,
+        "gf": 7,
+        "gp": 3,
+        "l": 0,
+        "pts": 7,
+        "team": "Brazil",
+        "w": 2
+      },
+      {
+        "d": 0,
+        "ga": 2,
+        "gd": 4,
+        "gf": 6,
+        "gp": 3,
+        "l": 1,
+        "pts": 6,
+        "team": "Morocco",
+        "w": 2
+      },
+      {
+        "d": 1,
+        "ga": 5,
+        "gd": -2,
+        "gf": 3,
+        "gp": 3,
+        "l": 1,
+        "pts": 4,
+        "team": "Scotland",
+        "w": 1
+      },
+      {
+        "d": 0,
+        "ga": 8,
+        "gd": -7,
+        "gf": 1,
+        "gp": 3,
+        "l": 3,
+        "pts": 0,
+        "team": "Haiti",
+        "w": 0
+      }
+    ],
+    "D": [
+      {
+        "d": 0,
+        "ga": 3,
+        "gd": 6,
+        "gf": 9,
+        "gp": 3,
+        "l": 0,
+        "pts": 9,
+        "team": "Turkey",
+        "w": 3
+      },
+      {
+        "d": 1,
+        "ga": 4,
+        "gd": 0,
+        "gf": 4,
+        "gp": 3,
+        "l": 1,
+        "pts": 4,
+        "team": "Paraguay",
+        "w": 1
+      },
+      {
+        "d": 2,
+        "ga": 7,
+        "gd": -3,
+        "gf": 4,
+        "gp": 3,
+        "l": 1,
+        "pts": 2,
+        "team": "USA",
+        "w": 0
+      },
+      {
+        "d": 1,
+        "ga": 6,
+        "gd": -3,
+        "gf": 3,
+        "gp": 3,
+        "l": 2,
+        "pts": 1,
+        "team": "Australia",
+        "w": 0
+      }
+    ],
+    "E": [
+      {
+        "d": 1,
+        "ga": 3,
+        "gd": 5,
+        "gf": 8,
+        "gp": 3,
+        "l": 0,
+        "pts": 7,
+        "team": "Germany",
+        "w": 2
+      },
+      {
+        "d": 1,
+        "ga": 3,
+        "gd": 2,
+        "gf": 5,
+        "gp": 3,
+        "l": 0,
+        "pts": 7,
+        "team": "Ivory Coast",
+        "w": 2
+      },
+      {
+        "d": 0,
+        "ga": 5,
+        "gd": -2,
+        "gf": 3,
+        "gp": 3,
+        "l": 2,
+        "pts": 3,
+        "team": "Ecuador",
+        "w": 1
+      },
+      {
+        "d": 0,
+        "ga": 5,
+        "gd": -5,
+        "gf": 0,
+        "gp": 3,
+        "l": 3,
+        "pts": 0,
+        "team": "Curaçao",
+        "w": 0
+      }
+    ],
+    "F": [
+      {
+        "d": 0,
+        "ga": 3,
+        "gd": 4,
+        "gf": 7,
+        "gp": 3,
+        "l": 0,
+        "pts": 9,
+        "team": "Japan",
+        "w": 3
+      },
+      {
+        "d": 1,
+        "ga": 5,
+        "gd": 0,
+        "gf": 5,
+        "gp": 3,
+        "l": 1,
+        "pts": 4,
+        "team": "Netherlands",
+        "w": 1
+      },
+      {
+        "d": 1,
+        "ga": 3,
+        "gd": 0,
+        "gf": 3,
+        "gp": 3,
+        "l": 1,
+        "pts": 4,
+        "team": "Sweden",
+        "w": 1
+      },
+      {
+        "d": 0,
+        "ga": 5,
+        "gd": -4,
+        "gf": 1,
+        "gp": 3,
+        "l": 3,
+        "pts": 0,
+        "team": "Tunisia",
+        "w": 0
+      }
+    ],
+    "G": [
+      {
+        "d": 1,
+        "ga": 1,
+        "gd": 4,
+        "gf": 5,
+        "gp": 3,
+        "l": 0,
+        "pts": 7,
+        "team": "Belgium",
+        "w": 2
+      },
+      {
+        "d": 2,
+        "ga": 2,
+        "gd": 3,
+        "gf": 5,
+        "gp": 3,
+        "l": 0,
+        "pts": 5,
+        "team": "Egypt",
+        "w": 1
+      },
+      {
+        "d": 0,
+        "ga": 5,
+        "gd": -4,
+        "gf": 1,
+        "gp": 3,
+        "l": 2,
+        "pts": 3,
+        "team": "New Zealand",
+        "w": 1
+      },
+      {
+        "d": 1,
+        "ga": 4,
+        "gd": -3,
+        "gf": 1,
+        "gp": 3,
+        "l": 2,
+        "pts": 1,
+        "team": "Iran",
+        "w": 0
+      }
+    ],
+    "H": [
+      {
+        "d": 0,
+        "ga": 1,
+        "gd": 7,
+        "gf": 8,
+        "gp": 3,
+        "l": 0,
+        "pts": 9,
+        "team": "Spain",
+        "w": 3
+      },
+      {
+        "d": 0,
+        "ga": 4,
+        "gd": 1,
+        "gf": 5,
+        "gp": 3,
+        "l": 1,
+        "pts": 6,
+        "team": "Uruguay",
+        "w": 2
+      },
+      {
+        "d": 1,
+        "ga": 5,
+        "gd": -3,
+        "gf": 2,
+        "gp": 3,
+        "l": 2,
+        "pts": 1,
+        "team": "Cape Verde",
+        "w": 0
+      },
+      {
+        "d": 1,
+        "ga": 6,
+        "gd": -5,
+        "gf": 1,
+        "gp": 3,
+        "l": 2,
+        "pts": 1,
+        "team": "Saudi Arabia",
+        "w": 0
+      }
+    ],
+    "I": [
+      {
+        "d": 1,
+        "ga": 3,
+        "gd": 5,
+        "gf": 8,
+        "gp": 3,
+        "l": 0,
+        "pts": 7,
+        "team": "France",
+        "w": 2
+      },
+      {
+        "d": 1,
+        "ga": 3,
+        "gd": 3,
+        "gf": 6,
+        "gp": 3,
+        "l": 0,
+        "pts": 7,
+        "team": "Senegal",
+        "w": 2
+      },
+      {
+        "d": 0,
+        "ga": 5,
+        "gd": -2,
+        "gf": 3,
+        "gp": 3,
+        "l": 2,
+        "pts": 3,
+        "team": "Norway",
+        "w": 1
+      },
+      {
+        "d": 0,
+        "ga": 6,
+        "gd": -6,
+        "gf": 0,
+        "gp": 3,
+        "l": 3,
+        "pts": 0,
+        "team": "Iraq",
+        "w": 0
+      }
+    ],
+    "J": [
+      {
+        "d": 0,
+        "ga": 1,
+        "gd": 3,
+        "gf": 4,
+        "gp": 3,
+        "l": 1,
+        "pts": 6,
+        "team": "Argentina",
+        "w": 2
+      },
+      {
+        "d": 0,
+        "ga": 2,
+        "gd": 0,
+        "gf": 2,
+        "gp": 3,
+        "l": 1,
+        "pts": 6,
+        "team": "Austria",
+        "w": 2
+      },
+      {
+        "d": 1,
+        "ga": 2,
+        "gd": 0,
+        "gf": 2,
+        "gp": 3,
+        "l": 1,
+        "pts": 4,
+        "team": "Algeria",
+        "w": 1
+      },
+      {
+        "d": 1,
+        "ga": 4,
+        "gd": -3,
+        "gf": 1,
+        "gp": 3,
+        "l": 2,
+        "pts": 1,
+        "team": "Jordan",
+        "w": 0
+      }
+    ],
+    "K": [
+      {
+        "d": 1,
+        "ga": 3,
+        "gd": 2,
+        "gf": 5,
+        "gp": 3,
+        "l": 0,
+        "pts": 7,
+        "team": "Colombia",
+        "w": 2
+      },
+      {
+        "d": 0,
+        "ga": 3,
+        "gd": 2,
+        "gf": 5,
+        "gp": 3,
+        "l": 1,
+        "pts": 6,
+        "team": "Portugal",
+        "w": 2
+      },
+      {
+        "d": 2,
+        "ga": 4,
+        "gd": -2,
+        "gf": 2,
+        "gp": 3,
+        "l": 1,
+        "pts": 2,
+        "team": "Uzbekistan",
+        "w": 0
+      },
+      {
+        "d": 1,
+        "ga": 3,
+        "gd": -2,
+        "gf": 1,
+        "gp": 3,
+        "l": 2,
+        "pts": 1,
+        "team": "DR Congo",
+        "w": 0
+      }
+    ],
+    "L": [
+      {
+        "d": 0,
+        "ga": 1,
+        "gd": 5,
+        "gf": 6,
+        "gp": 3,
+        "l": 0,
+        "pts": 9,
+        "team": "Croatia",
+        "w": 3
+      },
+      {
+        "d": 0,
+        "ga": 3,
+        "gd": 0,
+        "gf": 3,
+        "gp": 3,
+        "l": 1,
+        "pts": 6,
+        "team": "England",
+        "w": 2
+      },
+      {
+        "d": 0,
+        "ga": 5,
+        "gd": -1,
+        "gf": 4,
+        "gp": 3,
+        "l": 2,
+        "pts": 3,
+        "team": "Ghana",
+        "w": 1
+      },
+      {
+        "d": 0,
+        "ga": 5,
+        "gd": -4,
+        "gf": 1,
+        "gp": 3,
+        "l": 3,
+        "pts": 0,
+        "team": "Panama",
+        "w": 0
+      }
+    ]
+  },
+  "thirdPlaceRanking": [
+    {
+      "d": 1,
+      "ga": 3,
+      "gd": 0,
+      "gf": 3,
+      "gp": 3,
+      "group": "F",
+      "l": 1,
+      "pts": 4,
+      "team": "Sweden",
+      "w": 1
+    },
+    {
+      "d": 1,
+      "ga": 2,
+      "gd": 0,
+      "gf": 2,
+      "gp": 3,
+      "group": "J",
+      "l": 1,
+      "pts": 4,
+      "team": "Algeria",
+      "w": 1
+    },
+    {
+      "d": 1,
+      "ga": 5,
+      "gd": -2,
+      "gf": 3,
+      "gp": 3,
+      "group": "C",
+      "l": 1,
+      "pts": 4,
+      "team": "Scotland",
+      "w": 1
+    },
+    {
+      "d": 0,
+      "ga": 5,
+      "gd": -1,
+      "gf": 4,
+      "gp": 3,
+      "group": "L",
+      "l": 2,
+      "pts": 3,
+      "team": "Ghana",
+      "w": 1
+    },
+    {
+      "d": 0,
+      "ga": 4,
+      "gd": -1,
+      "gf": 3,
+      "gp": 3,
+      "group": "A",
+      "l": 2,
+      "pts": 3,
+      "team": "Czechia",
+      "w": 1
+    },
+    {
+      "d": 0,
+      "ga": 5,
+      "gd": -2,
+      "gf": 3,
+      "gp": 3,
+      "group": "E",
+      "l": 2,
+      "pts": 3,
+      "team": "Ecuador",
+      "w": 1
+    },
+    {
+      "d": 0,
+      "ga": 5,
+      "gd": -2,
+      "gf": 3,
+      "gp": 3,
+      "group": "I",
+      "l": 2,
+      "pts": 3,
+      "team": "Norway",
+      "w": 1
+    },
+    {
+      "d": 0,
+      "ga": 5,
+      "gd": -4,
+      "gf": 1,
+      "gp": 3,
+      "group": "G",
+      "l": 2,
+      "pts": 3,
+      "team": "New Zealand",
+      "w": 1
+    },
+    {
+      "d": 2,
+      "ga": 4,
+      "gd": -2,
+      "gf": 2,
+      "gp": 3,
+      "group": "K",
+      "l": 1,
+      "pts": 2,
+      "team": "Uzbekistan",
+      "w": 0
+    },
+    {
+      "d": 2,
+      "ga": 7,
+      "gd": -3,
+      "gf": 4,
+      "gp": 3,
+      "group": "D",
+      "l": 1,
+      "pts": 2,
+      "team": "USA",
+      "w": 0
+    },
+    {
+      "d": 1,
+      "ga": 5,
+      "gd": -3,
+      "gf": 2,
+      "gp": 3,
+      "group": "H",
+      "l": 2,
+      "pts": 1,
+      "team": "Cape Verde",
+      "w": 0
+    },
+    {
+      "d": 1,
+      "ga": 4,
+      "gd": -3,
+      "gf": 1,
+      "gp": 3,
+      "group": "B",
+      "l": 2,
+      "pts": 1,
+      "team": "Qatar",
+      "w": 0
+    }
+  ],
+  "thirdPlaceWinner": "Croatia",
+  "topScorer": "Harry Kane"
+}
