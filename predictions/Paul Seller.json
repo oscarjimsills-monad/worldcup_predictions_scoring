@@ -1,5 +1,5 @@
 {
-  "exported": "2026-06-09T17:24:19.006Z",
+  "exported": "2026-06-09T19:01:05.488Z",
   "groupScores": {
     "1": {
       "h": 3,
@@ -1285,7 +1285,33 @@
   "topScorer": "Michael Olise",
   "bestPlayer": "Scott mctominay",
   "bestGoalkeeper": "Alisson Becker",
-  "redCardJokers": [],
+  "redCardJokers": [
+    {
+      "matchId": 64,
+      "home": "Colombia",
+      "away": "DR Congo"
+    },
+    {
+      "matchId": 77,
+      "home": "France",
+      "away": "USA"
+    },
+    {
+      "matchId": 69,
+      "home": "England",
+      "away": "Ghana"
+    },
+    {
+      "matchId": 78,
+      "home": "Ivory Coast",
+      "away": "Senegal"
+    },
+    {
+      "matchId": 22,
+      "home": "Turkey",
+      "away": "Paraguay"
+    }
+  ],
   "eliminationPredictions": [
     {
       "team": "Czechia",
