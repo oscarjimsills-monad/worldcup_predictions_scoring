@@ -433,6 +433,12 @@ main{padding:20px;max-width:1200px;margin:0 auto}
     <span id="awards-save-ok" class="save-ok" style="display:none">✓ Saved</span>
   </div>
   <div class="card">
+    <h3>Point Adjustments</h3>
+    <p class="text-muted" style="margin-bottom:14px">Apply a penalty (negative) or bonus (positive) to any participant. Use for late submissions or corrections.</p>
+    <div id="adjustments-list"></div>
+    <span id="adjustments-save-ok" class="save-ok" style="display:none">✓ Saved</span>
+  </div>
+  <div class="card">
     <h3>Bulk Upload Results JSON</h3>
     <p class="text-muted" style="margin-bottom:12px">Upload a complete results.json file to overwrite all current results at once.</p>
     <input type="file" id="bulk-results-file" accept=".json" style="margin-bottom:10px">
@@ -1037,6 +1043,7 @@ function renderMyPredictions() {
         <div style="font-size:1.15rem;font-weight:700">${esc(match)}</div>
         <div style="font-size:.82rem;color:var(--muted);margin-top:4px">
           ${medal} of ${cachedScores.length} &nbsp;·&nbsp; <span style="color:var(--primary);font-weight:700">${total} pts</span>
+          ${s.summary.adjustment ? `&nbsp;·&nbsp; <span style="color:var(--red);font-size:.78rem">${s.summary.adjustment > 0 ? '+' : ''}${s.summary.adjustment} pts adjustment</span>` : ''}
         </div>
       </div>
       <button class="btn btn-ghost btn-sm" onclick="userLogout()">Sign out</button>
@@ -1619,11 +1626,18 @@ function scorePlayer(pred, results) {
     breakdown[`joker_${i}`] = { type: 'joker', pts: jPts, matchId, home: j.home, away: j.away, status: jStatus, badge: jBadge };
   }
 
+  // Point adjustment (late submission penalty / admin bonus)
+  const adjustment = (results.pointAdjustments || {})[pred._playerName] || 0;
+  if (adjustment !== 0) {
+    total += adjustment;
+    breakdown['_adjustment'] = { type: 'adjustment', pts: adjustment, badge: adjustment < 0 ? 'wrong' : 'exact' };
+  }
+
   // Summary counts
   const exactCount = Object.values(breakdown).filter(b => b.badge === 'exact').length;
   const winnerCount = Object.values(breakdown).filter(b => b.badge === 'winner').length;
 
-  return { total, breakdown, summary: { exactCount, winnerCount, jokerScored, standingsPts } };
+  return { total, breakdown, summary: { exactCount, winnerCount, jokerScored, standingsPts, adjustment } };
 }
 
 // ===================== LEADERBOARD RENDER =====================
@@ -1692,6 +1706,7 @@ function renderPlayerDetail(s) {
     <div class="stat-card"><div class="val">${summary.exactCount}</div><div class="lbl">Exact Scores</div></div>
     <div class="stat-card"><div class="val">${summary.winnerCount}</div><div class="lbl">Correct Outcomes</div></div>
     <div class="stat-card"><div class="val">${summary.jokerScored}</div><div class="lbl">Jokers Scored</div></div>
+    ${summary.adjustment ? `<div class="stat-card"><div class="val" style="color:${summary.adjustment < 0 ? 'var(--red)' : 'var(--green)'}">${summary.adjustment > 0 ? '+' : ''}${summary.adjustment}</div><div class="lbl">Adjustment</div></div>` : ''}
   </div>`;
 
   // Group stage by group
@@ -2612,6 +2627,48 @@ function loadAwardsUI() {
   for (const f of fields) {
     const el = document.getElementById(`award-${f}`);
     if (el) el.value = r[f] || '';
+  }
+  renderAdjustmentsUI();
+}
+
+function renderAdjustmentsUI() {
+  const container = document.getElementById('adjustments-list');
+  if (!container) return;
+  const players = Object.keys(cachedPredictions).sort((a, b) => a.localeCompare(b));
+  const adj = (cachedResults || {}).pointAdjustments || {};
+  if (!players.length) {
+    container.innerHTML = '<div class="empty-state text-muted" style="padding:16px 0">No predictions uploaded yet.</div>';
+    return;
+  }
+  container.innerHTML = players.map(name => {
+    const val = adj[name] || 0;
+    return `<div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(42,63,90,.3)">
+      <span style="flex:1;font-size:.85rem;font-weight:600">${esc(name)}</span>
+      <input type="number" id="adj-${esc(name)}" value="${val}" step="1"
+        style="width:80px;background:var(--surface2);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:.85rem;padding:5px 8px;text-align:center;font-family:monospace">
+      <span style="font-size:.72rem;color:var(--muted);width:28px">pts</span>
+      <button class="btn btn-ghost btn-sm" onclick="saveAdjustment('${escAttr(name)}')">Save</button>
+    </div>`;
+  }).join('');
+}
+
+async function saveAdjustment(name) {
+  const input = document.getElementById(`adj-${esc(name)}`);
+  if (!input) return;
+  const val = parseInt(input.value, 10) || 0;
+  const results = JSON.parse(JSON.stringify(cachedResults || {}));
+  if (!results.pointAdjustments) results.pointAdjustments = {};
+  if (val === 0) delete results.pointAdjustments[name];
+  else results.pointAdjustments[name] = val;
+  const ok = await writeFile('results.json', JSON.stringify(results, null, 2), `Point adjustment: ${name} ${val > 0 ? '+' : ''}${val}`);
+  if (ok) {
+    cachedResults = results;
+    const el = document.getElementById('adjustments-save-ok');
+    if (el) { el.style.display = 'inline'; setTimeout(() => el.style.display = 'none', 2000); }
+    renderLeaderboard();
+    if (currentUser) renderMyPredictions();
+  } else {
+    alert('Failed to save. Check GitHub config.');
   }
 }
 
