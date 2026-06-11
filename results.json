@@ -1,18 +1,25 @@
 {
-  "redCards": [],
-  "groupScores": {},
+  "redCards": [
+    1
+  ],
+  "groupScores": {
+    "1": {
+      "h": 2,
+      "a": 0
+    }
+  },
   "standings": {
     "A": [
       {
         "team": "Mexico",
-        "gp": 0,
-        "w": 0,
+        "gp": 1,
+        "w": 1,
         "d": 0,
         "l": 0,
-        "gf": 0,
+        "gf": 2,
         "ga": 0,
-        "pts": 0,
-        "gd": 0
+        "pts": 3,
+        "gd": 2
       },
       {
         "team": "South Korea",
@@ -38,14 +45,14 @@
       },
       {
         "team": "South Africa",
-        "gp": 0,
+        "gp": 1,
         "w": 0,
         "d": 0,
-        "l": 0,
+        "l": 1,
         "gf": 0,
-        "ga": 0,
+        "ga": 2,
         "pts": 0,
-        "gd": 0
+        "gd": -2
       }
     ]
   }
