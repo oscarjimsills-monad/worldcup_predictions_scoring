@@ -1043,7 +1043,7 @@ function renderMyPredictions() {
         <div style="font-size:1.15rem;font-weight:700">${esc(match)}</div>
         <div style="font-size:.82rem;color:var(--muted);margin-top:4px">
           ${medal} of ${cachedScores.length} &nbsp;·&nbsp; <span style="color:var(--primary);font-weight:700">${total} pts</span>
-          ${s.summary.adjustment ? `&nbsp;·&nbsp; <span style="color:var(--red);font-size:.78rem">${s.summary.adjustment > 0 ? '+' : ''}${s.summary.adjustment} pts adjustment</span>` : ''}
+          ${s.summary.adjustment ? `&nbsp;·&nbsp; <span style="color:${s.summary.adjustment < 0 ? 'var(--red)' : 'var(--green)'};font-size:.78rem">${s.summary.adjustment > 0 ? '+' : ''}${s.summary.adjustment} pts${s.summary.adjustmentReason ? ` (${esc(s.summary.adjustmentReason)})` : ''}</span>` : ''}
         </div>
       </div>
       <button class="btn btn-ghost btn-sm" onclick="userLogout()">Sign out</button>
@@ -1627,17 +1627,19 @@ function scorePlayer(pred, results) {
   }
 
   // Point adjustment (late submission penalty / admin bonus)
-  const adjustment = (results.pointAdjustments || {})[pred._playerName] || 0;
+  const adjEntry = (results.pointAdjustments || {})[pred._playerName];
+  const adjustment = adjEntry ? (adjEntry.pts ?? adjEntry) : 0; // support legacy plain-number format
+  const adjustmentReason = adjEntry?.reason ?? '';
   if (adjustment !== 0) {
     total += adjustment;
-    breakdown['_adjustment'] = { type: 'adjustment', pts: adjustment, badge: adjustment < 0 ? 'wrong' : 'exact' };
+    breakdown['_adjustment'] = { type: 'adjustment', pts: adjustment, reason: adjustmentReason, badge: adjustment < 0 ? 'wrong' : 'exact' };
   }
 
   // Summary counts
   const exactCount = Object.values(breakdown).filter(b => b.badge === 'exact').length;
   const winnerCount = Object.values(breakdown).filter(b => b.badge === 'winner').length;
 
-  return { total, breakdown, summary: { exactCount, winnerCount, jokerScored, standingsPts, adjustment } };
+  return { total, breakdown, summary: { exactCount, winnerCount, jokerScored, standingsPts, adjustment, adjustmentReason } };
 }
 
 // ===================== LEADERBOARD RENDER =====================
@@ -1706,7 +1708,7 @@ function renderPlayerDetail(s) {
     <div class="stat-card"><div class="val">${summary.exactCount}</div><div class="lbl">Exact Scores</div></div>
     <div class="stat-card"><div class="val">${summary.winnerCount}</div><div class="lbl">Correct Outcomes</div></div>
     <div class="stat-card"><div class="val">${summary.jokerScored}</div><div class="lbl">Jokers Scored</div></div>
-    ${summary.adjustment ? `<div class="stat-card"><div class="val" style="color:${summary.adjustment < 0 ? 'var(--red)' : 'var(--green)'}">${summary.adjustment > 0 ? '+' : ''}${summary.adjustment}</div><div class="lbl">Adjustment</div></div>` : ''}
+    ${summary.adjustment ? `<div class="stat-card"><div class="val" style="color:${summary.adjustment < 0 ? 'var(--red)' : 'var(--green)'}">${summary.adjustment > 0 ? '+' : ''}${summary.adjustment}</div><div class="lbl">${summary.adjustmentReason ? esc(summary.adjustmentReason) : 'Adjustment'}</div></div>` : ''}
   </div>`;
 
   // Group stage by group
@@ -2641,26 +2643,34 @@ function renderAdjustmentsUI() {
     return;
   }
   container.innerHTML = players.map(name => {
-    const val = adj[name] || 0;
-    return `<div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(42,63,90,.3)">
-      <span style="flex:1;font-size:.85rem;font-weight:600">${esc(name)}</span>
-      <input type="number" id="adj-${esc(name)}" value="${val}" step="1"
-        style="width:80px;background:var(--surface2);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:.85rem;padding:5px 8px;text-align:center;font-family:monospace">
-      <span style="font-size:.72rem;color:var(--muted);width:28px">pts</span>
-      <button class="btn btn-ghost btn-sm" onclick="saveAdjustment('${escAttr(name)}')">Save</button>
+    const entry = adj[name] || {};
+    const val = entry.pts ?? 0;
+    const reason = entry.reason ?? '';
+    return `<div style="padding:9px 0;border-bottom:1px solid rgba(42,63,90,.3)">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="flex:1;font-size:.85rem;font-weight:600">${esc(name)}</span>
+        <input type="number" id="adj-${esc(name)}" value="${val}" step="1"
+          style="width:70px;background:var(--surface2);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:.85rem;padding:5px 8px;text-align:center;font-family:monospace">
+        <span style="font-size:.72rem;color:var(--muted)">pts</span>
+        <button class="btn btn-ghost btn-sm" onclick="saveAdjustment('${escAttr(name)}')">Save</button>
+      </div>
+      <input type="text" id="adj-reason-${esc(name)}" value="${esc(reason)}" placeholder="Reason (e.g. late submission)…"
+        style="margin-top:5px;width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:.78rem;padding:4px 8px;font-family:inherit;${val === 0 ? 'opacity:.4' : ''}">
     </div>`;
   }).join('');
 }
 
 async function saveAdjustment(name) {
   const input = document.getElementById(`adj-${esc(name)}`);
+  const reasonInput = document.getElementById(`adj-reason-${esc(name)}`);
   if (!input) return;
   const val = parseInt(input.value, 10) || 0;
+  const reason = reasonInput ? reasonInput.value.trim() : '';
   const results = JSON.parse(JSON.stringify(cachedResults || {}));
   if (!results.pointAdjustments) results.pointAdjustments = {};
   if (val === 0) delete results.pointAdjustments[name];
-  else results.pointAdjustments[name] = val;
-  const ok = await writeFile('results.json', JSON.stringify(results, null, 2), `Point adjustment: ${name} ${val > 0 ? '+' : ''}${val}`);
+  else results.pointAdjustments[name] = { pts: val, reason };
+  const ok = await writeFile('results.json', JSON.stringify(results, null, 2), `Point adjustment: ${name} ${val > 0 ? '+' : ''}${val}${reason ? ` (${reason})` : ''}`);
   if (ok) {
     cachedResults = results;
     const el = document.getElementById('adjustments-save-ok');
