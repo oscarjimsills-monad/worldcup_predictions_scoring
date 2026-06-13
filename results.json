@@ -109,5 +109,11 @@
         "gd": 0
       }
     ]
+  },
+  "pointAdjustments": {
+    "Diego": {
+      "pts": -1,
+      "reason": "Entrega tarde, partido Korea del Sur - Czechia inválido"
+    }
   }
 }
