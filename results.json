@@ -164,6 +164,10 @@
     "Diego": {
       "pts": -1,
       "reason": "Entrega tarde, partido Korea del Sur - Czechia inválido"
+    },
+    "Seth Pickering": {
+      "pts": -14,
+      "reason": "Late submission: 3 exact predictions 1 red card joker invalid as occurred before submission"
     }
   }
 }
