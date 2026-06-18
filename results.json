@@ -1,6 +1,7 @@
 {
   "redCards": [
-    1
+    1,
+    9
   ],
   "groupScores": {
     "1": {
@@ -21,6 +22,10 @@
     },
     "8": {
       "h": 1,
+      "a": 1
+    },
+    "9": {
+      "h": 4,
       "a": 1
     },
     "13": {
@@ -153,18 +158,18 @@
     ],
     "B": [
       {
-        "team": "Canada",
-        "gp": 1,
-        "w": 0,
+        "team": "Switzerland",
+        "gp": 2,
+        "w": 1,
         "d": 1,
         "l": 0,
-        "gf": 1,
-        "ga": 1,
-        "pts": 1,
-        "gd": 0
+        "gf": 5,
+        "ga": 2,
+        "pts": 4,
+        "gd": 3
       },
       {
-        "team": "Bosnia & Herzegovina",
+        "team": "Canada",
         "gp": 1,
         "w": 0,
         "d": 1,
@@ -186,15 +191,15 @@
         "gd": 0
       },
       {
-        "team": "Switzerland",
-        "gp": 1,
+        "team": "Bosnia & Herzegovina",
+        "gp": 2,
         "w": 0,
         "d": 1,
-        "l": 0,
-        "gf": 1,
-        "ga": 1,
+        "l": 1,
+        "gf": 2,
+        "ga": 5,
         "pts": 1,
-        "gd": 0
+        "gd": -3
       }
     ],
     "D": [
