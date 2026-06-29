@@ -876,6 +876,16 @@
       "winner": "Canada",
       "loser": "South Africa"
     },
+    "74": {
+      "label": "R32",
+      "home": "Germany",
+      "away": "Paraguay",
+      "homeScore": 1,
+      "awayScore": 1,
+      "winner": "Paraguay",
+      "loser": "Germany",
+      "penWinner": "a"
+    },
     "76": {
       "label": "R32",
       "home": "Brazil",
