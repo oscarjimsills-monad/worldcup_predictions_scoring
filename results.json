@@ -865,5 +865,16 @@
       "pts": -2,
       "reason": "Late Submission: 2 correct results invalid as occurred before submission"
     }
+  },
+  "knockoutResults": {
+    "73": {
+      "label": "R32",
+      "home": "South Africa",
+      "away": "Canada",
+      "homeScore": 0,
+      "awayScore": 1,
+      "winner": "Canada",
+      "loser": "South Africa"
+    }
   }
 }
