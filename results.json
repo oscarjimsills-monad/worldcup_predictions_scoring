@@ -875,6 +875,15 @@
       "awayScore": 1,
       "winner": "Canada",
       "loser": "South Africa"
+    },
+    "76": {
+      "label": "R32",
+      "home": "Brazil",
+      "away": "Japan",
+      "homeScore": 2,
+      "awayScore": 1,
+      "winner": "Brazil",
+      "loser": "Japan"
     }
   }
 }
