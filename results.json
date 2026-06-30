@@ -886,6 +886,16 @@
       "loser": "Germany",
       "penWinner": "a"
     },
+    "75": {
+      "label": "R32",
+      "home": "Netherlands",
+      "away": "Morocco",
+      "homeScore": 1,
+      "awayScore": 1,
+      "winner": "Morocco",
+      "loser": "Netherlands",
+      "penWinner": "a"
+    },
     "76": {
       "label": "R32",
       "home": "Brazil",
