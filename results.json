@@ -905,6 +905,15 @@
       "winner": "Brazil",
       "loser": "Japan"
     },
+    "77": {
+      "label": "R32",
+      "home": "France",
+      "away": "Sweden",
+      "homeScore": 3,
+      "awayScore": 0,
+      "winner": "France",
+      "loser": "Sweden"
+    },
     "78": {
       "label": "R32",
       "home": "Ivory Coast",
