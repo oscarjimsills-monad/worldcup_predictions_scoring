@@ -904,6 +904,15 @@
       "awayScore": 1,
       "winner": "Brazil",
       "loser": "Japan"
+    },
+    "78": {
+      "label": "R32",
+      "home": "Ivory Coast",
+      "away": "Norway",
+      "homeScore": 1,
+      "awayScore": 2,
+      "winner": "Norway",
+      "loser": "Ivory Coast"
     }
   }
 }
