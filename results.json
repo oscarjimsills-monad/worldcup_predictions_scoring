@@ -6,7 +6,8 @@
     22,
     39,
     48,
-    54
+    54,
+    79
   ],
   "groupScores": {
     "1": {
@@ -922,6 +923,15 @@
       "awayScore": 2,
       "winner": "Norway",
       "loser": "Ivory Coast"
+    },
+    "79": {
+      "label": "R32",
+      "home": "Mexico",
+      "away": "Ecuador",
+      "homeScore": 2,
+      "awayScore": 0,
+      "winner": "Mexico",
+      "loser": "Ecuador"
     }
   }
 }
