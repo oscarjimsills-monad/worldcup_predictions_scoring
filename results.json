@@ -951,6 +951,15 @@
       "awayScore": 0,
       "winner": "USA",
       "loser": "Bosnia & Herzegovina"
+    },
+    "82": {
+      "label": "R32",
+      "home": "Belgium",
+      "away": "Senegal",
+      "homeScore": 3,
+      "awayScore": 2,
+      "winner": "Belgium",
+      "loser": "Senegal"
     }
   }
 }
