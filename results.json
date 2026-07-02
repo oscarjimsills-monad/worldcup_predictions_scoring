@@ -960,6 +960,15 @@
       "awayScore": 2,
       "winner": "Belgium",
       "loser": "Senegal"
+    },
+    "84": {
+      "label": "R32",
+      "home": "Spain",
+      "away": "Austria",
+      "homeScore": 3,
+      "awayScore": 0,
+      "winner": "Spain",
+      "loser": "Austria"
     }
   }
 }
