@@ -7,7 +7,8 @@
     39,
     48,
     54,
-    79
+    79,
+    81
   ],
   "groupScores": {
     "1": {
@@ -941,6 +942,15 @@
       "awayScore": 1,
       "winner": "England",
       "loser": "DR Congo"
+    },
+    "81": {
+      "label": "R32",
+      "home": "USA",
+      "away": "Bosnia & Herzegovina",
+      "homeScore": 2,
+      "awayScore": 0,
+      "winner": "USA",
+      "loser": "Bosnia & Herzegovina"
     }
   }
 }
