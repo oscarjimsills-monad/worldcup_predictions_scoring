@@ -978,6 +978,15 @@
       "awayScore": 0,
       "winner": "Spain",
       "loser": "Austria"
+    },
+    "85": {
+      "label": "R32",
+      "home": "Switzerland",
+      "away": "Algeria",
+      "homeScore": 2,
+      "awayScore": 0,
+      "winner": "Switzerland",
+      "loser": "Algeria"
     }
   }
 }
