@@ -987,6 +987,16 @@
       "awayScore": 0,
       "winner": "Switzerland",
       "loser": "Algeria"
+    },
+    "88": {
+      "label": "R32",
+      "home": "Australia",
+      "away": "Egypt",
+      "homeScore": 1,
+      "awayScore": 1,
+      "winner": "Egypt",
+      "loser": "Australia",
+      "penWinner": "a"
     }
   }
 }
