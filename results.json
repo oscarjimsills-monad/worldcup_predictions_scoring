@@ -1024,6 +1024,15 @@
       "awayScore": 1,
       "winner": "France",
       "loser": "Paraguay"
+    },
+    "90": {
+      "label": "R16",
+      "home": "Canada",
+      "away": "Morocco",
+      "homeScore": 0,
+      "awayScore": 3,
+      "winner": "Morocco",
+      "loser": "Canada"
     }
   }
 }
