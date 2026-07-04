@@ -997,6 +997,15 @@
       "winner": "Argentina",
       "loser": "Cape Verde"
     },
+    "87": {
+      "label": "R32",
+      "home": "Colombia",
+      "away": "Ghana",
+      "homeScore": 1,
+      "awayScore": 0,
+      "winner": "Colombia",
+      "loser": "Ghana"
+    },
     "88": {
       "label": "R32",
       "home": "Australia",
