@@ -988,6 +988,15 @@
       "winner": "Switzerland",
       "loser": "Algeria"
     },
+    "86": {
+      "label": "R32",
+      "home": "Argentina",
+      "away": "Cape Verde",
+      "homeScore": 3,
+      "awayScore": 2,
+      "winner": "Argentina",
+      "loser": "Cape Verde"
+    },
     "88": {
       "label": "R32",
       "home": "Australia",
