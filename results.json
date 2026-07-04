@@ -1015,6 +1015,15 @@
       "winner": "Egypt",
       "loser": "Australia",
       "penWinner": "a"
+    },
+    "89": {
+      "label": "R16",
+      "home": "Paraguay",
+      "away": "France",
+      "homeScore": 0,
+      "awayScore": 1,
+      "winner": "France",
+      "loser": "Paraguay"
     }
   }
 }
