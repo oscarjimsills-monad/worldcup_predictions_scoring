@@ -1033,6 +1033,15 @@
       "awayScore": 3,
       "winner": "Morocco",
       "loser": "Canada"
+    },
+    "91": {
+      "label": "R16",
+      "home": "Brazil",
+      "away": "Norway",
+      "homeScore": 1,
+      "awayScore": 2,
+      "winner": "Norway",
+      "loser": "Brazil"
     }
   }
 }
