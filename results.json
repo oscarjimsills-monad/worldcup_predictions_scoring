@@ -1052,6 +1052,15 @@
       "awayScore": 3,
       "winner": "England",
       "loser": "Mexico"
+    },
+    "93": {
+      "label": "R16",
+      "home": "Portugal",
+      "away": "Spain",
+      "homeScore": 0,
+      "awayScore": 1,
+      "winner": "Spain",
+      "loser": "Portugal"
     }
   }
 }
