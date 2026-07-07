@@ -1070,6 +1070,15 @@
       "awayScore": 4,
       "winner": "Belgium",
       "loser": "USA"
+    },
+    "95": {
+      "label": "R16",
+      "home": "Argentina",
+      "away": "Egypt",
+      "homeScore": 3,
+      "awayScore": 2,
+      "winner": "Argentina",
+      "loser": "Egypt"
     }
   }
 }
