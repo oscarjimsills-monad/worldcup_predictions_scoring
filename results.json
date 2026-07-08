@@ -1079,6 +1079,16 @@
       "awayScore": 2,
       "winner": "Argentina",
       "loser": "Egypt"
+    },
+    "96": {
+      "label": "R16",
+      "home": "Switzerland",
+      "away": "Colombia",
+      "homeScore": 0,
+      "awayScore": 0,
+      "winner": "Switzerland",
+      "loser": "Colombia",
+      "penWinner": "h"
     }
   }
 }
