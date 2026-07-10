@@ -1089,6 +1089,15 @@
       "winner": "Switzerland",
       "loser": "Colombia",
       "penWinner": "h"
+    },
+    "97": {
+      "label": "QF",
+      "home": "France",
+      "away": "Morocco",
+      "homeScore": 2,
+      "awayScore": 0,
+      "winner": "France",
+      "loser": "Morocco"
     }
   }
 }
