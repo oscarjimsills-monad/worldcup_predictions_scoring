@@ -1107,6 +1107,15 @@
       "awayScore": 1,
       "winner": "Spain",
       "loser": "Belgium"
+    },
+    "99": {
+      "label": "QF",
+      "home": "Norway",
+      "away": "England",
+      "homeScore": 1,
+      "awayScore": 2,
+      "winner": "England",
+      "loser": "Norway"
     }
   }
 }
