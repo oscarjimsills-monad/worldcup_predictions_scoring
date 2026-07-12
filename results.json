@@ -9,7 +9,8 @@
     54,
     79,
     81,
-    92
+    92,
+    100
   ],
   "groupScores": {
     "1": {
@@ -1116,6 +1117,15 @@
       "awayScore": 2,
       "winner": "England",
       "loser": "Norway"
+    },
+    "100": {
+      "label": "QF",
+      "home": "Argentina",
+      "away": "Switzerland",
+      "homeScore": 3,
+      "awayScore": 1,
+      "winner": "Argentina",
+      "loser": "Switzerland"
     }
   }
 }
