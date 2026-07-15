@@ -1135,6 +1135,15 @@
       "awayScore": 2,
       "winner": "Spain",
       "loser": "France"
+    },
+    "102": {
+      "label": "SF",
+      "home": "England",
+      "away": "Argentina",
+      "homeScore": 1,
+      "awayScore": 2,
+      "winner": "Argentina",
+      "loser": "England"
     }
   }
 }
