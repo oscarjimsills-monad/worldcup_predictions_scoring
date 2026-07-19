@@ -1144,6 +1144,15 @@
       "awayScore": 2,
       "winner": "Argentina",
       "loser": "England"
+    },
+    "103": {
+      "label": "3rd Place",
+      "home": "France",
+      "away": "England",
+      "homeScore": 4,
+      "awayScore": 6,
+      "winner": "England",
+      "loser": "France"
     }
   }
 }
