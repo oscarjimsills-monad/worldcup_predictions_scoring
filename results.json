@@ -1168,5 +1168,8 @@
   "bestPlayer": "Rodri",
   "bestGoalkeeper": "Unai Simón",
   "champion": "Spain",
-  "thirdPlaceWinner": "England"
+  "thirdPlaceWinner": "England",
+  "manualOverrides": {
+    "Mr Gemini (AI)_topScorer": true
+  }
 }
